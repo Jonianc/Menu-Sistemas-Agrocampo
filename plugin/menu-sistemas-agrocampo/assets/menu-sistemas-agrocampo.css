@@ -16,6 +16,33 @@
     margin-bottom: 2rem;
 }
 
+.msa-menu__header--logo-right {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    gap: 1.5rem;
+}
+
+.msa-menu__header--logo-right .msa-menu__text {
+    text-align: left;
+}
+
+.msa-menu__header--logo-right .msa-menu__logo {
+    margin-left: auto;
+}
+
+.msa-menu__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.msa-menu__header--logo-right .msa-menu__text {
+    align-items: flex-start;
+}
+
 .msa-menu__logo {
     max-width: 180px;
     height: auto;

@@ -36,6 +36,7 @@ function msa_get_settings(): array
         'title' => 'Menú Sistemas Agrocampo',
         'subtitle' => 'Acceso rápido a los sistemas de gestión.',
         'logo_url' => '',
+        'header_layout' => 'center',
         'items' => [
             [
                 'title' => 'Cotizador Mantenciones',
@@ -88,12 +89,14 @@ function msa_render_menu(): string
     ob_start();
     ?>
     <section class="msa-menu" aria-label="Menú Sistemas Agrocampo">
-        <header class="msa-menu__header">
+        <header class="msa-menu__header <?php echo esc_attr('msa-menu__header--' . $settings['header_layout']); ?>">
             <?php if (!empty($settings['logo_url'])) : ?>
                 <img class="msa-menu__logo" src="<?php echo esc_url($settings['logo_url']); ?>" alt="Logo Agrocampo">
             <?php endif; ?>
-            <h2 class="msa-menu__title"><?php echo esc_html($settings['title']); ?></h2>
-            <p class="msa-menu__subtitle"><?php echo esc_html($settings['subtitle']); ?></p>
+            <div class="msa-menu__text">
+                <h2 class="msa-menu__title"><?php echo esc_html($settings['title']); ?></h2>
+                <p class="msa-menu__subtitle"><?php echo esc_html($settings['subtitle']); ?></p>
+            </div>
         </header>
         <div class="msa-menu__grid">
             <?php foreach ($settings['items'] as $item) : ?>
@@ -216,6 +219,9 @@ function msa_sanitize_settings(array $input): array
     $settings['title'] = isset($input['title']) ? sanitize_text_field($input['title']) : $settings['title'];
     $settings['subtitle'] = isset($input['subtitle']) ? sanitize_text_field($input['subtitle']) : $settings['subtitle'];
     $settings['logo_url'] = isset($input['logo_url']) ? esc_url_raw($input['logo_url']) : '';
+    if (isset($input['header_layout']) && in_array($input['header_layout'], ['center', 'logo-right'], true)) {
+        $settings['header_layout'] = $input['header_layout'];
+    }
 
     if (isset($input['items']) && is_array($input['items'])) {
         $sanitized_items = [];
@@ -324,6 +330,22 @@ function msa_render_settings_page(): void
                             <?php if (!empty($settings['logo_url'])) : ?>
                                 <img class="msa-logo-preview" src="<?php echo esc_url($settings['logo_url']); ?>" alt="Vista previa del logo">
                             <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="msa-header-layout">Layout</label></th>
+                        <td>
+                            <select
+                                id="msa-header-layout"
+                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[header_layout]"
+                            >
+                                <option value="center" <?php selected($settings['header_layout'], 'center'); ?>>
+                                    Centrado (logo arriba)
+                                </option>
+                                <option value="logo-right" <?php selected($settings['header_layout'], 'logo-right'); ?>>
+                                    Logo a la derecha / texto a la izquierda
+                                </option>
+                            </select>
                         </td>
                     </tr>
                 </tbody>
