@@ -272,8 +272,17 @@ function msa_render_settings_page(): void
     ?>
     <div class="wrap">
         <h1>Menú Sistemas Agrocampo</h1>
+        <style>
+            .msa-logo-preview {
+                max-width: 180px;
+                height: auto;
+                display: block;
+                margin-top: 0.5rem;
+            }
+        </style>
         <form method="post" action="options.php">
             <?php settings_fields('msa_menu_settings_group'); ?>
+            <h2 class="title">Header</h2>
             <table class="form-table" role="presentation">
                 <tbody>
                     <tr>
@@ -312,6 +321,9 @@ function msa_render_settings_page(): void
                             >
                             <button type="button" class="button msa-upload-logo">Subir logo</button>
                             <p class="description">Sube o selecciona el logo para mostrar en el menú.</p>
+                            <?php if (!empty($settings['logo_url'])) : ?>
+                                <img class="msa-logo-preview" src="<?php echo esc_url($settings['logo_url']); ?>" alt="Vista previa del logo">
+                            <?php endif; ?>
                         </td>
                     </tr>
                 </tbody>
