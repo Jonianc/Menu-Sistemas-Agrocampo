@@ -9,6 +9,10 @@
 
 .msa-menu__header {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
     margin-bottom: 2rem;
 }
 
@@ -16,7 +20,7 @@
     max-width: 180px;
     height: auto;
     display: block;
-    margin: 0 auto 1rem;
+    margin: 0;
 }
 
 .msa-menu__title {
