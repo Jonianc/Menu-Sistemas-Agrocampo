@@ -12,6 +12,13 @@
     margin-bottom: 2rem;
 }
 
+.msa-menu__logo {
+    max-width: 180px;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
 .msa-menu__title {
     font-size: 2rem;
     color: #0f172a;

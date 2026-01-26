@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) {
 }
 
 const MENU_SISTEMAS_AGROCAMPO_VERSION = '1.0.0';
+const MENU_SISTEMAS_AGROCAMPO_OPTION = 'msa_menu_settings';
 
 /**
  * Registers the frontend stylesheet for the menu.
@@ -27,52 +28,75 @@ function msa_register_assets(): void
 add_action('wp_enqueue_scripts', 'msa_register_assets');
 
 /**
+ * Get menu settings with defaults.
+ */
+function msa_get_settings(): array
+{
+    $defaults = [
+        'title' => 'Menú Sistemas Agrocampo',
+        'subtitle' => 'Acceso rápido a los sistemas de gestión.',
+        'logo_url' => '',
+        'items' => [
+            [
+                'title' => 'Cotizador Mantenciones',
+                'description' => 'Formulario de cotización para mantenciones.',
+                'links' => [
+                    [
+                        'label' => 'Formulario',
+                        'url' => 'https://sistemas.agrocampo.cl/test1/agrocampo-cotizador',
+                    ],
+                    [
+                        'label' => 'Gestor de cotizaciones',
+                        'url' => 'https://sistemas.agrocampo.cl/test1/agrocampo-cotizador/gestor',
+                    ],
+                ],
+            ],
+            [
+                'title' => 'Creador QR OT',
+                'description' => 'Genera y gestiona códigos QR para OT.',
+                'links' => [
+                    [
+                        'label' => 'Subir OT',
+                        'url' => 'https://sistemas.agrocampo.cl/test1/otqr/upload/?k=6CS4CX4A4RMHS4634ML4',
+                    ],
+                    [
+                        'label' => 'Gestionar QR',
+                        'url' => 'https://sistemas.agrocampo.cl/test1/otqr/manage/?k=6CS4CX4A4RMHS4634ML4',
+                    ],
+                ],
+            ],
+        ],
+    ];
+
+    $settings = get_option(MENU_SISTEMAS_AGROCAMPO_OPTION, []);
+    if (!is_array($settings)) {
+        $settings = [];
+    }
+
+    return array_replace_recursive($defaults, $settings);
+}
+
+/**
  * Render the menu markup.
  */
 function msa_render_menu(): string
 {
     wp_enqueue_style('menu-sistemas-agrocampo-style');
 
-    $items = [
-        [
-            'title' => 'Cotizador Mantenciones',
-            'description' => 'Formulario de cotización para mantenciones.',
-            'links' => [
-                [
-                    'label' => 'Formulario',
-                    'url' => 'https://sistemas.agrocampo.cl/test1/agrocampo-cotizador',
-                ],
-                [
-                    'label' => 'Gestor de cotizaciones',
-                    'url' => 'https://sistemas.agrocampo.cl/test1/agrocampo-cotizador/gestor',
-                ],
-            ],
-        ],
-        [
-            'title' => 'Creador QR OT',
-            'description' => 'Genera y gestiona códigos QR para OT.',
-            'links' => [
-                [
-                    'label' => 'Subir OT',
-                    'url' => 'https://sistemas.agrocampo.cl/test1/otqr/upload/?k=6CS4CX4A4RMHS4634ML4',
-                ],
-                [
-                    'label' => 'Gestionar QR',
-                    'url' => 'https://sistemas.agrocampo.cl/test1/otqr/manage/?k=6CS4CX4A4RMHS4634ML4',
-                ],
-            ],
-        ],
-    ];
+    $settings = msa_get_settings();
 
     ob_start();
     ?>
     <section class="msa-menu" aria-label="Menú Sistemas Agrocampo">
         <header class="msa-menu__header">
-            <h2 class="msa-menu__title">Menú Sistemas Agrocampo</h2>
-            <p class="msa-menu__subtitle">Acceso rápido a los sistemas de gestión.</p>
+            <?php if (!empty($settings['logo_url'])) : ?>
+                <img class="msa-menu__logo" src="<?php echo esc_url($settings['logo_url']); ?>" alt="Logo Agrocampo">
+            <?php endif; ?>
+            <h2 class="msa-menu__title"><?php echo esc_html($settings['title']); ?></h2>
+            <p class="msa-menu__subtitle"><?php echo esc_html($settings['subtitle']); ?></p>
         </header>
         <div class="msa-menu__grid">
-            <?php foreach ($items as $item) : ?>
+            <?php foreach ($settings['items'] as $item) : ?>
                 <article class="msa-menu__card">
                     <h3 class="msa-menu__card-title"><?php echo esc_html($item['title']); ?></h3>
                     <p class="msa-menu__card-description"><?php echo esc_html($item['description']); ?></p>
@@ -145,6 +169,209 @@ function msa_render_standalone_page(): void
     exit;
 }
 add_action('template_redirect', 'msa_render_standalone_page');
+
+/**
+ * Register admin settings page.
+ */
+function msa_register_admin_menu(): void
+{
+    add_menu_page(
+        'Menú Sistemas Agrocampo',
+        'Menú Sistemas',
+        'manage_options',
+        'msa-menu-settings',
+        'msa_render_settings_page',
+        'dashicons-screenoptions',
+        60
+    );
+}
+add_action('admin_menu', 'msa_register_admin_menu');
+
+/**
+ * Register settings for the menu.
+ */
+function msa_register_settings(): void
+{
+    register_setting(
+        'msa_menu_settings_group',
+        MENU_SISTEMAS_AGROCAMPO_OPTION,
+        [
+            'sanitize_callback' => 'msa_sanitize_settings',
+            'default' => msa_get_settings(),
+        ]
+    );
+}
+add_action('admin_init', 'msa_register_settings');
+
+/**
+ * Sanitize settings fields.
+ *
+ * @param array $input
+ * @return array
+ */
+function msa_sanitize_settings(array $input): array
+{
+    $settings = msa_get_settings();
+
+    $settings['title'] = isset($input['title']) ? sanitize_text_field($input['title']) : $settings['title'];
+    $settings['subtitle'] = isset($input['subtitle']) ? sanitize_text_field($input['subtitle']) : $settings['subtitle'];
+    $settings['logo_url'] = isset($input['logo_url']) ? esc_url_raw($input['logo_url']) : '';
+
+    if (isset($input['items']) && is_array($input['items'])) {
+        $sanitized_items = [];
+        foreach ($input['items'] as $item) {
+            $sanitized_item = [
+                'title' => isset($item['title']) ? sanitize_text_field($item['title']) : '',
+                'description' => isset($item['description']) ? sanitize_text_field($item['description']) : '',
+                'links' => [],
+            ];
+
+            if (isset($item['links']) && is_array($item['links'])) {
+                foreach ($item['links'] as $link) {
+                    $sanitized_item['links'][] = [
+                        'label' => isset($link['label']) ? sanitize_text_field($link['label']) : '',
+                        'url' => isset($link['url']) ? esc_url_raw($link['url']) : '',
+                    ];
+                }
+            }
+
+            $sanitized_items[] = $sanitized_item;
+        }
+        $settings['items'] = $sanitized_items;
+    }
+
+    return $settings;
+}
+
+/**
+ * Enqueue admin assets for settings page.
+ */
+function msa_enqueue_admin_assets(string $hook): void
+{
+    if ($hook !== 'toplevel_page_msa-menu-settings') {
+        return;
+    }
+
+    wp_enqueue_media();
+    wp_enqueue_script(
+        'msa-admin',
+        plugins_url('assets/menu-sistemas-agrocampo-admin.js', __FILE__),
+        ['jquery'],
+        MENU_SISTEMAS_AGROCAMPO_VERSION,
+        true
+    );
+}
+add_action('admin_enqueue_scripts', 'msa_enqueue_admin_assets');
+
+/**
+ * Render the settings page.
+ */
+function msa_render_settings_page(): void
+{
+    $settings = msa_get_settings();
+    ?>
+    <div class="wrap">
+        <h1>Menú Sistemas Agrocampo</h1>
+        <form method="post" action="options.php">
+            <?php settings_fields('msa_menu_settings_group'); ?>
+            <table class="form-table" role="presentation">
+                <tbody>
+                    <tr>
+                        <th scope="row"><label for="msa-title">Título</label></th>
+                        <td>
+                            <input
+                                type="text"
+                                id="msa-title"
+                                class="regular-text"
+                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[title]"
+                                value="<?php echo esc_attr($settings['title']); ?>"
+                            >
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="msa-subtitle">Subtítulo</label></th>
+                        <td>
+                            <input
+                                type="text"
+                                id="msa-subtitle"
+                                class="regular-text"
+                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[subtitle]"
+                                value="<?php echo esc_attr($settings['subtitle']); ?>"
+                            >
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="msa-logo-url">Logo</label></th>
+                        <td>
+                            <input
+                                type="text"
+                                id="msa-logo-url"
+                                class="regular-text"
+                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[logo_url]"
+                                value="<?php echo esc_url($settings['logo_url']); ?>"
+                            >
+                            <button type="button" class="button msa-upload-logo">Subir logo</button>
+                            <p class="description">Sube o selecciona el logo para mostrar en el menú.</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 class="title">Sistemas</h2>
+            <?php foreach ($settings['items'] as $item_index => $item) : ?>
+                <table class="form-table" role="presentation">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label>Nombre del sistema</label></th>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="regular-text"
+                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][title]"
+                                    value="<?php echo esc_attr($item['title']); ?>"
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label>Descripción</label></th>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="regular-text"
+                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][description]"
+                                    value="<?php echo esc_attr($item['description']); ?>"
+                                >
+                            </td>
+                        </tr>
+                        <?php foreach ($item['links'] as $link_index => $link) : ?>
+                            <tr>
+                                <th scope="row"><label>Acceso <?php echo esc_html((string) ($link_index + 1)); ?></label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="regular-text"
+                                        name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][links][<?php echo esc_attr((string) $link_index); ?>][label]"
+                                        value="<?php echo esc_attr($link['label']); ?>"
+                                        placeholder="Nombre del botón"
+                                    >
+                                    <input
+                                        type="url"
+                                        class="regular-text"
+                                        name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][links][<?php echo esc_attr((string) $link_index); ?>][url]"
+                                        value="<?php echo esc_url($link['url']); ?>"
+                                        placeholder="https://"
+                                    >
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endforeach; ?>
+            <?php submit_button('Guardar cambios'); ?>
+        </form>
+    </div>
+    <?php
+}
 
 /**
  * Flush rewrite rules on activation/deactivation.
