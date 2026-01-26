@@ -266,6 +266,13 @@ function msa_enqueue_admin_assets(string $hook): void
         MENU_SISTEMAS_AGROCAMPO_VERSION,
         true
     );
+    wp_localize_script(
+        'msa-admin',
+        'menuSistemasAgrocampo',
+        [
+            'option' => MENU_SISTEMAS_AGROCAMPO_OPTION,
+        ]
+    );
 }
 add_action('admin_enqueue_scripts', 'msa_enqueue_admin_assets');
 
@@ -293,6 +300,18 @@ function msa_render_settings_page(): void
             }
             .msa-actions {
                 margin-top: 1rem;
+            }
+            .msa-link-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                align-items: center;
+            }
+            .msa-link-row input {
+                flex: 1 1 220px;
+            }
+            .msa-link-row .button {
+                flex: 0 0 auto;
             }
         </style>
         <form method="post" action="options.php">
@@ -395,23 +414,32 @@ function msa_render_settings_page(): void
                                     <tr>
                                         <th scope="row"><label>Acceso <?php echo esc_html((string) ($link_index + 1)); ?></label></th>
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="regular-text"
-                                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][links][<?php echo esc_attr((string) $link_index); ?>][label]"
-                                                value="<?php echo esc_attr($link['label']); ?>"
-                                                placeholder="Nombre del botón"
-                                            >
-                                            <input
-                                                type="url"
-                                                class="regular-text"
-                                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][links][<?php echo esc_attr((string) $link_index); ?>][url]"
-                                                value="<?php echo esc_url($link['url']); ?>"
-                                                placeholder="https://"
-                                            >
+                                            <div class="msa-link-row" data-link-index="<?php echo esc_attr((string) $link_index); ?>">
+                                                <input
+                                                    type="text"
+                                                    class="regular-text"
+                                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][links][<?php echo esc_attr((string) $link_index); ?>][label]"
+                                                    value="<?php echo esc_attr($link['label']); ?>"
+                                                    placeholder="Nombre del botón"
+                                                >
+                                                <input
+                                                    type="url"
+                                                    class="regular-text"
+                                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][<?php echo esc_attr((string) $item_index); ?>][links][<?php echo esc_attr((string) $link_index); ?>][url]"
+                                                    value="<?php echo esc_url($link['url']); ?>"
+                                                    placeholder="https://"
+                                                >
+                                                <button type="button" class="button msa-remove-link">Quitar</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td>
+                                        <button type="button" class="button msa-add-link">Agregar acceso</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -452,39 +480,51 @@ function msa_render_settings_page(): void
                     <tr>
                         <th scope="row"><label>Acceso 1</label></th>
                         <td>
-                            <input
-                                type="text"
-                                class="regular-text"
-                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][0][label]"
-                                value=""
-                                placeholder="Nombre del botón"
-                            >
-                            <input
-                                type="url"
-                                class="regular-text"
-                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][0][url]"
-                                value=""
-                                placeholder="https://"
-                            >
+                            <div class="msa-link-row" data-link-index="0">
+                                <input
+                                    type="text"
+                                    class="regular-text"
+                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][0][label]"
+                                    value=""
+                                    placeholder="Nombre del botón"
+                                >
+                                <input
+                                    type="url"
+                                    class="regular-text"
+                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][0][url]"
+                                    value=""
+                                    placeholder="https://"
+                                >
+                                <button type="button" class="button msa-remove-link">Quitar</button>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><label>Acceso 2</label></th>
                         <td>
-                            <input
-                                type="text"
-                                class="regular-text"
-                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][1][label]"
-                                value=""
-                                placeholder="Nombre del botón"
-                            >
-                            <input
-                                type="url"
-                                class="regular-text"
-                                name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][1][url]"
-                                value=""
-                                placeholder="https://"
-                            >
+                            <div class="msa-link-row" data-link-index="1">
+                                <input
+                                    type="text"
+                                    class="regular-text"
+                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][1][label]"
+                                    value=""
+                                    placeholder="Nombre del botón"
+                                >
+                                <input
+                                    type="url"
+                                    class="regular-text"
+                                    name="<?php echo esc_attr(MENU_SISTEMAS_AGROCAMPO_OPTION); ?>[items][{{index}}][links][1][url]"
+                                    value=""
+                                    placeholder="https://"
+                                >
+                                <button type="button" class="button msa-remove-link">Quitar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>
+                            <button type="button" class="button msa-add-link">Agregar acceso</button>
                         </td>
                     </tr>
                 </tbody>

@@ -23,6 +23,7 @@ En el panel encontrarás **Menú Sistemas** donde puedes:
 - Cambiar el título y subtítulo del menú.
 - Subir/seleccionar un logo desde la biblioteca multimedia.
 - Elegir el layout del header (centrado, logo a la derecha o logo a la izquierda).
+- Agregar o quitar accesos por cada sistema desde el panel.
 - Editar los nombres, descripciones y enlaces de los sistemas.
 
 ## Notas
