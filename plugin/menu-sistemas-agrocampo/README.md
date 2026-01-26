@@ -2,31 +2,57 @@
 
 Plugin WordPress para publicar un menú standalone en frontend con accesos a los sistemas de Agrocampo.
 
-## Instalación
+## Árbol de archivos
+```
+menu-sistemas-agrocampo/
+├── menu-sistemas-agrocampo.php
+├── includes/
+│   ├── class-msa-activator.php
+│   ├── class-msa-admin.php
+│   ├── class-msa-deactivator.php
+│   ├── class-msa-frontend.php
+│   ├── class-msa-plugin.php
+│   └── class-msa-settings.php
+├── templates/
+│   ├── admin-settings.php
+│   └── standalone.php
+├── assets/
+│   ├── css/
+│   │   └── menu-sistemas-agrocampo.css
+│   └── js/
+│       └── menu-sistemas-agrocampo-admin.js
+└── README.md
+```
 
+## Instalación
 1. Copia la carpeta `menu-sistemas-agrocampo` dentro de `wp-content/plugins/`.
 2. Activa el plugin desde **Plugins** en el panel de WordPress.
 3. (Opcional) Re-guardar los enlaces permanentes para asegurar la regla de reescritura.
 
+## Configuración
+1. En el panel encontrarás **Menú Sistemas**.
+2. Ajusta el título, subtítulo, logo y layout del header.
+3. Configura el **link de acceso rápido** para mostrar un botón adicional en el header.
+4. Agrega, elimina o edita los sistemas y sus accesos.
+
 ## Uso (frontend standalone)
-
 El menú queda disponible en la ruta:
-
 ```
 /menu-sistemas-agrocampo
 ```
 
-## Ajustes en el admin
+## Changelog breve
+- **1.1.0**: Reestructura a arquitectura de clases + templates, agrega link de acceso rápido y mantiene controles dinámicos de sistemas/accesos para mejor mantenimiento y escalabilidad.
 
-En el panel encontrarás **Menú Sistemas** donde puedes:
-
-- Cambiar el título y subtítulo del menú.
-- Subir/seleccionar un logo desde la biblioteca multimedia.
-- Elegir el layout del header (centrado, logo a la derecha o logo a la izquierda).
-- Agregar o quitar accesos por cada sistema desde el panel.
-- Editar los nombres, descripciones y enlaces de los sistemas.
+## Checklist de pruebas manuales
+- [ ] Activar el plugin sin warnings en WP 6.x / PHP 8.x.
+- [ ] Visitar `/menu-sistemas-agrocampo` y validar render sin theme.
+- [ ] Cambiar título/subtítulo/logo y verificar en frontend.
+- [ ] Probar layouts (centrado, logo derecha, logo izquierda).
+- [ ] Configurar link de acceso rápido y validar botón en header.
+- [ ] Agregar/Eliminar sistemas y accesos; guardar y validar persistencia.
+- [ ] Verificar enlaces en nueva pestaña y sanitización de URLs.
 
 ## Notas
-
 - El menú se renderiza sin depender del theme activo.
 - Los enlaces se abren en una nueva pestaña.
