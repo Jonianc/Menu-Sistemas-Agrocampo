@@ -32,6 +32,22 @@
     margin-left: auto;
 }
 
+.msa-menu__header--logo-left {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    gap: 1.5rem;
+}
+
+.msa-menu__header--logo-left .msa-menu__text {
+    text-align: right;
+}
+
+.msa-menu__header--logo-left .msa-menu__logo {
+    margin-right: auto;
+}
+
 .msa-menu__text {
     display: flex;
     flex-direction: column;
@@ -41,6 +57,10 @@
 
 .msa-menu__header--logo-right .msa-menu__text {
     align-items: flex-start;
+}
+
+.msa-menu__header--logo-left .msa-menu__text {
+    align-items: flex-end;
 }
 
 .msa-menu__logo {

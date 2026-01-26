@@ -219,7 +219,7 @@ function msa_sanitize_settings(array $input): array
     $settings['title'] = isset($input['title']) ? sanitize_text_field($input['title']) : $settings['title'];
     $settings['subtitle'] = isset($input['subtitle']) ? sanitize_text_field($input['subtitle']) : $settings['subtitle'];
     $settings['logo_url'] = isset($input['logo_url']) ? esc_url_raw($input['logo_url']) : '';
-    if (isset($input['header_layout']) && in_array($input['header_layout'], ['center', 'logo-right'], true)) {
+    if (isset($input['header_layout']) && in_array($input['header_layout'], ['center', 'logo-right', 'logo-left'], true)) {
         $settings['header_layout'] = $input['header_layout'];
     }
 
@@ -344,6 +344,9 @@ function msa_render_settings_page(): void
                                 </option>
                                 <option value="logo-right" <?php selected($settings['header_layout'], 'logo-right'); ?>>
                                     Logo a la derecha / texto a la izquierda
+                                </option>
+                                <option value="logo-left" <?php selected($settings['header_layout'], 'logo-left'); ?>>
+                                    Logo a la izquierda / texto a la derecha
                                 </option>
                             </select>
                         </td>
