@@ -1,0 +1,135 @@
+.msa-menu {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 2rem;
+    background: #f5f7f8;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.msa-menu__header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.msa-menu__header--logo-right {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    gap: 1.5rem;
+}
+
+.msa-menu__header--logo-right .msa-menu__text {
+    text-align: left;
+}
+
+.msa-menu__header--logo-right .msa-menu__logo {
+    margin-left: auto;
+}
+
+.msa-menu__header--logo-left {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    gap: 1.5rem;
+}
+
+.msa-menu__header--logo-left .msa-menu__text {
+    text-align: right;
+}
+
+.msa-menu__header--logo-left .msa-menu__logo {
+    margin-right: auto;
+}
+
+.msa-menu__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.msa-menu__header--logo-right .msa-menu__text {
+    align-items: flex-start;
+}
+
+.msa-menu__header--logo-left .msa-menu__text {
+    align-items: flex-end;
+}
+
+.msa-menu__logo {
+    max-width: 180px;
+    height: auto;
+    display: block;
+    margin: 0;
+}
+
+.msa-menu__title {
+    font-size: 2rem;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.msa-menu__subtitle {
+    color: #475569;
+    margin: 0;
+}
+
+.msa-menu__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.msa-menu__card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.msa-menu__card-title {
+    font-size: 1.25rem;
+    color: #0f172a;
+    margin: 0;
+}
+
+.msa-menu__card-description {
+    color: #64748b;
+    margin: 0;
+}
+
+.msa-menu__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.msa-menu__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.25rem;
+    border-radius: 999px;
+    background: #0f766e;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.msa-menu__link:hover,
+.msa-menu__link:focus {
+    background: #115e59;
+    box-shadow: 0 8px 16px rgba(15, 118, 110, 0.25);
+    transform: translateY(-2px);
+}
