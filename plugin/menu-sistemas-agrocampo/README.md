@@ -44,6 +44,7 @@ El menú queda disponible en la ruta:
 ```
 
 ## Changelog breve
+- **1.3.1**: Corrige comportamiento de drag & drop en admin con inicialización/reindexación robusta y actualización de estado sortable.
 - **1.3.0**: Sprint 2 agrega reordenamiento drag & drop en admin, mejoras de accesibilidad de foco en frontend y estado vacío en frontend.
 - **1.2.2**: Se agrega confirmación al eliminar sistemas y estado vacío en admin al no existir elementos.
 - **1.2.1**: Se crea `CHANGELOG.md` y se referencia como historial principal de cambios.

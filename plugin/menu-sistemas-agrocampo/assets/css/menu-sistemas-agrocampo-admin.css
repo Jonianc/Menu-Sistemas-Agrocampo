@@ -55,6 +55,15 @@ input[type="url"].msa-url-invalid {
 
 .msa-drag-item {
     cursor: move;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #1d2327;
+}
+
+.msa-drag-item:focus-visible {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
 }
 
 .msa-sort-placeholder {

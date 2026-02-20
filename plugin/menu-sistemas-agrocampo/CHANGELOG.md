@@ -4,6 +4,12 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.3.1] - 2026-02-20
+### Fixed
+- Corrección del drag & drop en admin para operar solo sobre bloques de sistema válidos.
+- Reindexación más robusta tras agregar/eliminar/reordenar elementos.
+- Actualización dinámica del estado de sortable (habilitar/deshabilitar según cantidad de sistemas).
+
 ## [1.3.0] - 2026-02-20
 ### Added
 - Reordenamiento de sistemas en admin mediante drag & drop.

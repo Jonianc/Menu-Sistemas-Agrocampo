@@ -113,10 +113,10 @@ if (!defined('ABSPATH')) {
             <?php foreach ($settings['items'] as $item_index => $item) : ?>
                 <div class="msa-item-block" data-item-index="<?php echo esc_attr((string) $item_index); ?>">
                     <div class="msa-item-block__actions">
-                        <button type="button" class="button msa-drag-item" aria-label="<?php echo esc_attr__('Arrastrar sistema', 'menu-sistemas-agrocampo'); ?>">
-                            <span class="dashicons dashicons-move"></span>
+                        <span class="msa-drag-item" role="button" tabindex="0" aria-label="<?php echo esc_attr__('Arrastrar sistema', 'menu-sistemas-agrocampo'); ?>">
+                            <span class="dashicons dashicons-move" aria-hidden="true"></span>
                             <?php echo esc_html__('Arrastrar', 'menu-sistemas-agrocampo'); ?>
-                        </button>
+                        </span>
                         <button type="button" class="button button-link-delete msa-remove-item">
                             <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
                         </button>
@@ -197,6 +197,10 @@ if (!defined('ABSPATH')) {
 <script type="text/template" id="msa-item-template">
     <div class="msa-item-block" data-item-index="{{index}}">
         <div class="msa-item-block__actions">
+            <span class="msa-drag-item" role="button" tabindex="0" aria-label="<?php echo esc_attr__('Arrastrar sistema', 'menu-sistemas-agrocampo'); ?>">
+                <span class="dashicons dashicons-move" aria-hidden="true"></span>
+                <?php echo esc_html__('Arrastrar', 'menu-sistemas-agrocampo'); ?>
+            </span>
             <button type="button" class="button button-link-delete msa-remove-item">
                 <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
             </button>

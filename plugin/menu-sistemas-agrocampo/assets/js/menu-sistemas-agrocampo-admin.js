@@ -1,8 +1,11 @@
 (function ($) {
+    const itemsContainer = $('#msa-items');
+    const form = $('.wrap form[action="options.php"]');
+
     function getNextIndex() {
         let maxIndex = -1;
-        $('#msa-items .msa-item-block').each(function () {
-            const index = parseInt($(this).data('item-index'), 10);
+        itemsContainer.find('.msa-item-block').each(function () {
+            const index = parseInt($(this).attr('data-item-index'), 10);
             if (!Number.isNaN(index) && index > maxIndex) {
                 maxIndex = index;
             }
@@ -36,29 +39,19 @@
 
     function bindUrlValidation(scope) {
         scope.find('input[type="url"]').each(function () {
-            const input = $(this);
-            validateUrlInput(input);
+            validateUrlInput($(this));
         });
     }
 
     function toggleEmptyState() {
-        const hasItems = $('#msa-items .msa-item-block').length > 0;
-        $('.msa-empty-state').toggle(!hasItems);
+        const hasItems = itemsContainer.find('.msa-item-block').length > 0;
+        itemsContainer.find('.msa-empty-state').toggle(!hasItems);
     }
 
     function reindexItems() {
-        $('#msa-items .msa-item-block').each(function (newIndex) {
+        itemsContainer.find('.msa-item-block').each(function (newIndex) {
             const itemBlock = $(this);
-            const previousIndex = parseInt(itemBlock.data('item-index'), 10);
-
-            if (Number.isNaN(previousIndex) || previousIndex === newIndex) {
-                itemBlock.attr('data-item-index', newIndex);
-                itemBlock.data('item-index', newIndex);
-                return;
-            }
-
-            itemBlock.attr('data-item-index', newIndex);
-            itemBlock.data('item-index', newIndex);
+            itemBlock.attr('data-item-index', newIndex).data('item-index', newIndex);
 
             itemBlock.find('input, select, textarea').each(function () {
                 const field = $(this);
@@ -67,29 +60,51 @@
                     return;
                 }
 
-                field.attr(
-                    'name',
-                    name.replace(/\[items\]\[\d+\]/, `[items][${newIndex}]`)
-                );
+                field.attr('name', name.replace(/\[items\]\[\d+\]/, `[items][${newIndex}]`));
             });
         });
     }
 
-    function initSortable() {
-        const list = $('#msa-items');
-        if (!$.fn.sortable || !list.length) {
+    function refreshSortableState() {
+        if (!$.fn.sortable || !itemsContainer.length || !itemsContainer.hasClass('ui-sortable')) {
             return;
         }
 
-        list.sortable({
-            items: '.msa-item-block',
+        itemsContainer.sortable('refresh');
+
+        if (itemsContainer.find('.msa-item-block').length <= 1) {
+            itemsContainer.sortable('disable');
+        } else {
+            itemsContainer.sortable('enable');
+        }
+    }
+
+    function initSortable() {
+        if (!$.fn.sortable || !itemsContainer.length) {
+            return;
+        }
+
+        if (itemsContainer.hasClass('ui-sortable')) {
+            itemsContainer.sortable('destroy');
+        }
+
+        itemsContainer.sortable({
+            items: '> .msa-item-block',
             handle: '.msa-drag-item',
+            axis: 'y',
+            tolerance: 'pointer',
             placeholder: 'msa-sort-placeholder',
             forcePlaceholderSize: true,
+            helper: 'clone',
+            start: function (_event, ui) {
+                ui.placeholder.height(ui.item.outerHeight());
+            },
             update: function () {
                 reindexItems();
             }
         });
+
+        refreshSortableState();
     }
 
     $(document).on('input blur', 'input[type="url"]', function () {
@@ -117,12 +132,13 @@
         event.preventDefault();
         const template = $('#msa-item-template').html();
         const index = getNextIndex();
-        const html = template.replace(/{{index}}/g, index);
-        const newItem = $(html);
-        $('#msa-items').append(newItem);
+        const newItem = $(template.replace(/{{index}}/g, index));
+        itemsContainer.append(newItem);
+
         bindUrlValidation(newItem);
         reindexItems();
         toggleEmptyState();
+        refreshSortableState();
     });
 
     $(document).on('click', '.msa-remove-item', function (event) {
@@ -135,6 +151,7 @@
         $(this).closest('.msa-item-block').remove();
         reindexItems();
         toggleEmptyState();
+        refreshSortableState();
     });
 
     $(document).on('click', '.msa-add-link', function (event) {
@@ -176,7 +193,7 @@
         $(this).closest('tr').remove();
     });
 
-    $('form').on('submit', function () {
+    form.on('submit', function () {
         reindexItems();
     });
 
