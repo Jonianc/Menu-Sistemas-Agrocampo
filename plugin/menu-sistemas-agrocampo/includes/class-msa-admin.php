@@ -55,7 +55,7 @@ class MSA_Admin
         wp_enqueue_script(
             'msa-admin',
             MSA_PLUGIN_URL . 'assets/js/menu-sistemas-agrocampo-admin.js',
-            ['jquery'],
+            ['jquery', 'jquery-ui-sortable'],
             MSA_PLUGIN_VERSION,
             true
         );
@@ -72,6 +72,7 @@ class MSA_Admin
                     'selectLogo' => __('Selecciona un logo', 'menu-sistemas-agrocampo'),
                     'useLogo' => __('Usar este logo', 'menu-sistemas-agrocampo'),
                     'removeSystemConfirm' => __('¿Seguro que deseas eliminar este sistema?', 'menu-sistemas-agrocampo'),
+                    'dragSystem' => __('Arrastrar sistema', 'menu-sistemas-agrocampo'),
                 ],
             ]
         );

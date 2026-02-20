@@ -4,6 +4,15 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.3.0] - 2026-02-20
+### Added
+- Reordenamiento de sistemas en admin mediante drag & drop.
+- Estado vacío en frontend cuando no existen sistemas configurados.
+
+### Changed
+- Reindexación automática de campos tras ordenar/agregar/eliminar sistemas en admin para persistir correctamente.
+- Mejoras de accesibilidad visual con `:focus-visible` en enlaces principales del frontend.
+
 ## [1.2.2] - 2026-02-20
 ### Added
 - Confirmación al eliminar un sistema desde el panel admin.

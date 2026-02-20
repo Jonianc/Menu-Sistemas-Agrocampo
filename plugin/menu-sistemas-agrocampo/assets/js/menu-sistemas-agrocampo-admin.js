@@ -46,6 +46,52 @@
         $('.msa-empty-state').toggle(!hasItems);
     }
 
+    function reindexItems() {
+        $('#msa-items .msa-item-block').each(function (newIndex) {
+            const itemBlock = $(this);
+            const previousIndex = parseInt(itemBlock.data('item-index'), 10);
+
+            if (Number.isNaN(previousIndex) || previousIndex === newIndex) {
+                itemBlock.attr('data-item-index', newIndex);
+                itemBlock.data('item-index', newIndex);
+                return;
+            }
+
+            itemBlock.attr('data-item-index', newIndex);
+            itemBlock.data('item-index', newIndex);
+
+            itemBlock.find('input, select, textarea').each(function () {
+                const field = $(this);
+                const name = field.attr('name');
+                if (!name) {
+                    return;
+                }
+
+                field.attr(
+                    'name',
+                    name.replace(/\[items\]\[\d+\]/, `[items][${newIndex}]`)
+                );
+            });
+        });
+    }
+
+    function initSortable() {
+        const list = $('#msa-items');
+        if (!$.fn.sortable || !list.length) {
+            return;
+        }
+
+        list.sortable({
+            items: '.msa-item-block',
+            handle: '.msa-drag-item',
+            placeholder: 'msa-sort-placeholder',
+            forcePlaceholderSize: true,
+            update: function () {
+                reindexItems();
+            }
+        });
+    }
+
     $(document).on('input blur', 'input[type="url"]', function () {
         validateUrlInput($(this));
     });
@@ -75,6 +121,7 @@
         const newItem = $(html);
         $('#msa-items').append(newItem);
         bindUrlValidation(newItem);
+        reindexItems();
         toggleEmptyState();
     });
 
@@ -86,6 +133,7 @@
         }
 
         $(this).closest('.msa-item-block').remove();
+        reindexItems();
         toggleEmptyState();
     });
 
@@ -128,7 +176,13 @@
         $(this).closest('tr').remove();
     });
 
+    $('form').on('submit', function () {
+        reindexItems();
+    });
+
     $(function () {
+        initSortable();
+        reindexItems();
         bindUrlValidation($(document));
         toggleEmptyState();
     });

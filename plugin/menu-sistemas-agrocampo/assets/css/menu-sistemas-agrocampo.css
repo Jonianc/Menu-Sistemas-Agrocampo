@@ -86,6 +86,12 @@
     background: #1d4ed8;
 }
 
+.msa-menu__quick-link:focus-visible,
+.msa-menu__link:focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 2px;
+}
+
 .msa-menu__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -150,4 +156,10 @@
     .msa-menu__header--logo-left .msa-menu__text {
         align-items: center;
     }
+}
+
+
+.msa-menu__card--empty {
+    border-style: dashed;
+    text-align: center;
 }

@@ -42,24 +42,31 @@ $header_class = 'msa-menu__header--' . $settings['header_layout'];
             <?php endif; ?>
         </header>
         <div class="msa-menu__grid">
-            <?php foreach ($settings['items'] as $item) : ?>
-                <article class="msa-menu__card">
-                    <h2 class="msa-menu__card-title"><?php echo esc_html($item['title']); ?></h2>
-                    <p class="msa-menu__card-description"><?php echo esc_html($item['description']); ?></p>
-                    <div class="msa-menu__actions">
-                        <?php foreach ($item['links'] as $link) : ?>
-                            <a
-                                class="msa-menu__link"
-                                href="<?php echo esc_url($link['url']); ?>"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <?php echo esc_html($link['label']); ?>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
+            <?php if (empty($settings['items'])) : ?>
+                <article class="msa-menu__card msa-menu__card--empty">
+                    <h2 class="msa-menu__card-title"><?php echo esc_html__('No hay sistemas disponibles', 'menu-sistemas-agrocampo'); ?></h2>
+                    <p class="msa-menu__card-description"><?php echo esc_html__('Configura accesos desde el panel de administración.', 'menu-sistemas-agrocampo'); ?></p>
                 </article>
-            <?php endforeach; ?>
+            <?php else : ?>
+                <?php foreach ($settings['items'] as $item) : ?>
+                    <article class="msa-menu__card">
+                        <h2 class="msa-menu__card-title"><?php echo esc_html($item['title']); ?></h2>
+                        <p class="msa-menu__card-description"><?php echo esc_html($item['description']); ?></p>
+                        <div class="msa-menu__actions">
+                            <?php foreach ($item['links'] as $link) : ?>
+                                <a
+                                    class="msa-menu__link"
+                                    href="<?php echo esc_url($link['url']); ?>"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <?php echo esc_html($link['label']); ?>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </section>
 </body>

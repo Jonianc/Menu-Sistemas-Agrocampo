@@ -47,3 +47,19 @@ input[type="url"].msa-url-invalid {
     margin: 0.5rem 0 1rem;
     font-style: italic;
 }
+
+
+.msa-item-block__actions {
+    gap: 0.5rem;
+}
+
+.msa-drag-item {
+    cursor: move;
+}
+
+.msa-sort-placeholder {
+    border: 2px dashed #94a3b8;
+    background: #f8fafc;
+    min-height: 80px;
+    margin-bottom: 1rem;
+}

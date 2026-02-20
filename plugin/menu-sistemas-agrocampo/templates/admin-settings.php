@@ -113,6 +113,10 @@ if (!defined('ABSPATH')) {
             <?php foreach ($settings['items'] as $item_index => $item) : ?>
                 <div class="msa-item-block" data-item-index="<?php echo esc_attr((string) $item_index); ?>">
                     <div class="msa-item-block__actions">
+                        <button type="button" class="button msa-drag-item" aria-label="<?php echo esc_attr__('Arrastrar sistema', 'menu-sistemas-agrocampo'); ?>">
+                            <span class="dashicons dashicons-move"></span>
+                            <?php echo esc_html__('Arrastrar', 'menu-sistemas-agrocampo'); ?>
+                        </button>
                         <button type="button" class="button button-link-delete msa-remove-item">
                             <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
                         </button>
