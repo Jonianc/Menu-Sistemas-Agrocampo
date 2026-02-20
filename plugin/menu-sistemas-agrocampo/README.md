@@ -22,6 +22,7 @@ menu-sistemas-agrocampo/
 │   │   └── menu-sistemas-agrocampo.css
 │   └── js/
 │       └── menu-sistemas-agrocampo-admin.js
+├── CHANGELOG.md
 └── README.md
 ```
 
@@ -43,8 +44,11 @@ El menú queda disponible en la ruta:
 ```
 
 ## Changelog breve
+- **1.2.1**: Se crea `CHANGELOG.md` y se referencia como historial principal de cambios.
 - **1.2.0**: Mejora UX del panel admin con eliminación de sistemas, validación inline de URLs y separación de estilos admin en CSS dedicado.
 - **1.1.0**: Reestructura a arquitectura de clases + templates, agrega link de acceso rápido y mantiene controles dinámicos de sistemas/accesos para mejor mantenimiento y escalabilidad.
+
+Para el historial completo revisa `CHANGELOG.md`.
 
 ## Checklist de pruebas manuales
 - [ ] Activar el plugin sin warnings en WP 6.x / PHP 8.x.
