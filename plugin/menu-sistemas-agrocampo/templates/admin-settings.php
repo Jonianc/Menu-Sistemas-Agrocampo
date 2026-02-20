@@ -107,6 +107,9 @@ if (!defined('ABSPATH')) {
 
         <h2 class="title"><?php echo esc_html__('Sistemas', 'menu-sistemas-agrocampo'); ?></h2>
         <div id="msa-items">
+            <p class="description msa-empty-state" <?php if (!empty($settings['items'])) : ?>style="display:none;"<?php endif; ?>>
+                <?php echo esc_html__('No hay sistemas configurados. Agrega uno para comenzar.', 'menu-sistemas-agrocampo'); ?>
+            </p>
             <?php foreach ($settings['items'] as $item_index => $item) : ?>
                 <div class="msa-item-block" data-item-index="<?php echo esc_attr((string) $item_index); ?>">
                     <div class="msa-item-block__actions">

@@ -71,6 +71,7 @@ class MSA_Admin
                     'buttonName' => __('Nombre del botón', 'menu-sistemas-agrocampo'),
                     'selectLogo' => __('Selecciona un logo', 'menu-sistemas-agrocampo'),
                     'useLogo' => __('Usar este logo', 'menu-sistemas-agrocampo'),
+                    'removeSystemConfirm' => __('¿Seguro que deseas eliminar este sistema?', 'menu-sistemas-agrocampo'),
                 ],
             ]
         );

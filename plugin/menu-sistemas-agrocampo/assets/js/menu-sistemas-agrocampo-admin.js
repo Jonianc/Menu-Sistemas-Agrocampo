@@ -41,6 +41,11 @@
         });
     }
 
+    function toggleEmptyState() {
+        const hasItems = $('#msa-items .msa-item-block').length > 0;
+        $('.msa-empty-state').toggle(!hasItems);
+    }
+
     $(document).on('input blur', 'input[type="url"]', function () {
         validateUrlInput($(this));
     });
@@ -70,11 +75,18 @@
         const newItem = $(html);
         $('#msa-items').append(newItem);
         bindUrlValidation(newItem);
+        toggleEmptyState();
     });
 
     $(document).on('click', '.msa-remove-item', function (event) {
         event.preventDefault();
+
+        if (!window.confirm(menuSistemasAgrocampo.labels.removeSystemConfirm)) {
+            return;
+        }
+
         $(this).closest('.msa-item-block').remove();
+        toggleEmptyState();
     });
 
     $(document).on('click', '.msa-add-link', function (event) {
@@ -118,5 +130,6 @@
 
     $(function () {
         bindUrlValidation($(document));
+        toggleEmptyState();
     });
 })(jQuery);

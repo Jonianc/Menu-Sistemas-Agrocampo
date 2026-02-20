@@ -4,6 +4,14 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.2.2] - 2026-02-20
+### Added
+- Confirmación al eliminar un sistema desde el panel admin.
+- Estado vacío en admin cuando no hay sistemas configurados.
+
+### Changed
+- Ajuste del JS admin para mostrar/ocultar estado vacío dinámicamente.
+
 ## [1.2.1] - 2026-02-20
 ### Added
 - Se crea `CHANGELOG.md` para centralizar el historial de cambios del plugin.
