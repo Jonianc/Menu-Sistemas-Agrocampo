@@ -4,6 +4,15 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.4.0] - 2026-02-20
+### Added
+- Opción global para abrir enlaces en nueva pestaña (`_blank`) o misma pestaña (`_self`).
+- Campo de etiqueta (badge) opcional por sistema.
+- Opción por sistema para ocultarlo temporalmente desde frontend.
+
+### Changed
+- Frontend ahora renderiza solo sistemas no ocultos y muestra badge cuando está configurado.
+
 ## [1.3.1] - 2026-02-20
 ### Fixed
 - Corrección del drag & drop en admin para operar solo sobre bloques de sistema válidos.
