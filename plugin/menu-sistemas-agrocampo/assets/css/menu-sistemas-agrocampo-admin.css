@@ -1,0 +1,43 @@
+.msa-logo-preview {
+    max-width: 180px;
+    height: auto;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.msa-item-block {
+    border: 1px solid #dcdcdc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #ffffff;
+}
+
+.msa-item-block__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.75rem;
+}
+
+.msa-actions {
+    margin-top: 1rem;
+}
+
+.msa-link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.msa-link-row input {
+    flex: 1 1 220px;
+}
+
+.msa-link-row .button {
+    flex: 0 0 auto;
+}
+
+input[type="url"].msa-url-invalid {
+    border-color: #d63638;
+    box-shadow: 0 0 0 1px #d63638;
+}

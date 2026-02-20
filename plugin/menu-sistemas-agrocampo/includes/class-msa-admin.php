@@ -45,6 +45,13 @@ class MSA_Admin
         }
 
         wp_enqueue_media();
+        wp_enqueue_style(
+            'msa-admin',
+            MSA_PLUGIN_URL . 'assets/css/menu-sistemas-agrocampo-admin.css',
+            [],
+            MSA_PLUGIN_VERSION
+        );
+
         wp_enqueue_script(
             'msa-admin',
             MSA_PLUGIN_URL . 'assets/js/menu-sistemas-agrocampo-admin.js',

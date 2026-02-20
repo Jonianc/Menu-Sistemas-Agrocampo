@@ -12,35 +12,6 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="wrap">
     <h1><?php echo esc_html__('Menú Sistemas Agrocampo', 'menu-sistemas-agrocampo'); ?></h1>
-    <style>
-        .msa-logo-preview {
-            max-width: 180px;
-            height: auto;
-            display: block;
-            margin-top: 0.5rem;
-        }
-        .msa-item-block {
-            border: 1px solid #dcdcdc;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: #ffffff;
-        }
-        .msa-actions {
-            margin-top: 1rem;
-        }
-        .msa-link-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        .msa-link-row input {
-            flex: 1 1 220px;
-        }
-        .msa-link-row .button {
-            flex: 0 0 auto;
-        }
-    </style>
     <form method="post" action="options.php">
         <?php settings_fields('msa_menu_settings_group'); ?>
 
@@ -138,6 +109,11 @@ if (!defined('ABSPATH')) {
         <div id="msa-items">
             <?php foreach ($settings['items'] as $item_index => $item) : ?>
                 <div class="msa-item-block" data-item-index="<?php echo esc_attr((string) $item_index); ?>">
+                    <div class="msa-item-block__actions">
+                        <button type="button" class="button button-link-delete msa-remove-item">
+                            <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
+                        </button>
+                    </div>
                     <table class="form-table" role="presentation">
                         <tbody>
                             <tr>
@@ -213,6 +189,11 @@ if (!defined('ABSPATH')) {
 
 <script type="text/template" id="msa-item-template">
     <div class="msa-item-block" data-item-index="{{index}}">
+        <div class="msa-item-block__actions">
+            <button type="button" class="button button-link-delete msa-remove-item">
+                <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
+            </button>
+        </div>
         <table class="form-table" role="presentation">
             <tbody>
                 <tr>

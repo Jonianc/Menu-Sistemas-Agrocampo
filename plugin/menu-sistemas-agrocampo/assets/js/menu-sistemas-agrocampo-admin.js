@@ -21,6 +21,30 @@
         return maxIndex + 1;
     }
 
+    function validateUrlInput(input) {
+        const value = input.val().trim();
+
+        if (value === '' || input[0].checkValidity()) {
+            input.removeClass('msa-url-invalid');
+            input[0].setCustomValidity('');
+            return;
+        }
+
+        input.addClass('msa-url-invalid');
+        input[0].setCustomValidity('Por favor ingresa una URL válida (ej: https://dominio.com).');
+    }
+
+    function bindUrlValidation(scope) {
+        scope.find('input[type="url"]').each(function () {
+            const input = $(this);
+            validateUrlInput(input);
+        });
+    }
+
+    $(document).on('input blur', 'input[type="url"]', function () {
+        validateUrlInput($(this));
+    });
+
     $(document).on('click', '.msa-upload-logo', function (event) {
         event.preventDefault();
         const input = $('#msa-logo-url');
@@ -43,7 +67,14 @@
         const template = $('#msa-item-template').html();
         const index = getNextIndex();
         const html = template.replace(/{{index}}/g, index);
-        $('#msa-items').append(html);
+        const newItem = $(html);
+        $('#msa-items').append(newItem);
+        bindUrlValidation(newItem);
+    });
+
+    $(document).on('click', '.msa-remove-item', function (event) {
+        event.preventDefault();
+        $(this).closest('.msa-item-block').remove();
     });
 
     $(document).on('click', '.msa-add-link', function (event) {
@@ -75,11 +106,17 @@
                 </td>
             </tr>
         `;
-        $(this).closest('table').find('tbody').append(row);
+        const newRow = $(row);
+        $(this).closest('table').find('tbody').append(newRow);
+        bindUrlValidation(newRow);
     });
 
     $(document).on('click', '.msa-remove-link', function (event) {
         event.preventDefault();
         $(this).closest('tr').remove();
+    });
+
+    $(function () {
+        bindUrlValidation($(document));
     });
 })(jQuery);
