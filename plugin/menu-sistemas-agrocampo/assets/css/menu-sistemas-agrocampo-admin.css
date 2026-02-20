@@ -72,3 +72,26 @@ input[type="url"].msa-url-invalid {
     min-height: 80px;
     margin-bottom: 1rem;
 }
+
+
+.msa-quick-route {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    background: #ffffff;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0 1.5rem;
+}
+
+.msa-quick-route p {
+    margin: 0;
+}
+
+.msa-quick-route code {
+    background: #f6f7f7;
+    padding: 0.2rem 0.45rem;
+    border-radius: 4px;
+}

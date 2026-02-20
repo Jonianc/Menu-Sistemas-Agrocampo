@@ -4,6 +4,14 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.4.1] - 2026-02-20
+### Added
+- Bloque de acceso rápido en admin con URL pública del menú y botón para abrirla.
+- Submenú "Ajustes" bajo el menú del plugin en el admin.
+
+### Changed
+- Carga de assets admin compatible con hook de página principal y submenú.
+
 ## [1.4.0] - 2026-02-20
 ### Added
 - Opción global para abrir enlaces en nueva pestaña (`_blank`) o misma pestaña (`_self`).

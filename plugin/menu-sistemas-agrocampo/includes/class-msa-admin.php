@@ -24,6 +24,15 @@ class MSA_Admin
             'dashicons-screenoptions',
             60
         );
+
+        add_submenu_page(
+            'msa-menu-settings',
+            __('Ajustes', 'menu-sistemas-agrocampo'),
+            __('Ajustes', 'menu-sistemas-agrocampo'),
+            'manage_options',
+            'msa-menu-settings',
+            [$this, 'render_settings_page']
+        );
     }
 
     public function register_settings(): void
@@ -40,7 +49,7 @@ class MSA_Admin
 
     public function enqueue_assets(string $hook): void
     {
-        if ($hook !== 'toplevel_page_msa-menu-settings') {
+        if (!in_array($hook, ['toplevel_page_msa-menu-settings', 'menu-sistemas_page_msa-menu-settings'], true)) {
             return;
         }
 
@@ -86,6 +95,7 @@ class MSA_Admin
 
         $settings = $this->settings->get_settings();
         $option_key = MSA_Settings::OPTION_KEY;
+        $menu_url = home_url('/menu-sistemas-agrocampo/');
         require MSA_PLUGIN_DIR . 'templates/admin-settings.php';
     }
 }

@@ -12,6 +12,13 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="wrap">
     <h1><?php echo esc_html__('Menú Sistemas Agrocampo', 'menu-sistemas-agrocampo'); ?></h1>
+    <div class="msa-quick-route">
+        <p><strong><?php echo esc_html__('Ruta pública del menú:', 'menu-sistemas-agrocampo'); ?></strong></p>
+        <code><?php echo esc_html($menu_url); ?></code>
+        <a class="button button-secondary" href="<?php echo esc_url($menu_url); ?>" target="_blank" rel="noopener noreferrer">
+            <?php echo esc_html__('Abrir menú', 'menu-sistemas-agrocampo'); ?>
+        </a>
+    </div>
     <form method="post" action="options.php">
         <?php settings_fields('msa_menu_settings_group'); ?>
 
