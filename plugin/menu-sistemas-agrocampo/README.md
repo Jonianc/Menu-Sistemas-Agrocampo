@@ -18,9 +18,11 @@ menu-sistemas-agrocampo/
 │   └── standalone.php
 ├── assets/
 │   ├── css/
+│   │   ├── menu-sistemas-agrocampo-admin.css
 │   │   └── menu-sistemas-agrocampo.css
 │   └── js/
 │       └── menu-sistemas-agrocampo-admin.js
+├── CHANGELOG.md
 └── README.md
 ```
 
@@ -33,7 +35,8 @@ menu-sistemas-agrocampo/
 1. En el panel encontrarás **Menú Sistemas**.
 2. Ajusta el título, subtítulo, logo y layout del header.
 3. Configura el **link de acceso rápido** para mostrar un botón adicional en el header.
-4. Agrega, elimina o edita los sistemas y sus accesos.
+4. Configura apertura de enlaces (misma o nueva pestaña).
+5. Agrega, elimina, oculta temporalmente o etiqueta los sistemas y sus accesos.
 
 ## Uso (frontend standalone)
 El menú queda disponible en la ruta:
@@ -42,7 +45,16 @@ El menú queda disponible en la ruta:
 ```
 
 ## Changelog breve
+- **1.4.1**: Se agrega bloque de acceso rápido a la ruta pública en admin y submenú de Ajustes.
+- **1.4.0**: Sprint 3 agrega visibilidad por sistema, etiqueta (badge) y configuración global de apertura de enlaces.
+- **1.3.1**: Corrige comportamiento de drag & drop en admin con inicialización/reindexación robusta y actualización de estado sortable.
+- **1.3.0**: Sprint 2 agrega reordenamiento drag & drop en admin, mejoras de accesibilidad de foco en frontend y estado vacío en frontend.
+- **1.2.2**: Se agrega confirmación al eliminar sistemas y estado vacío en admin al no existir elementos.
+- **1.2.1**: Se crea `CHANGELOG.md` y se referencia como historial principal de cambios.
+- **1.2.0**: Mejora UX del panel admin con eliminación de sistemas, validación inline de URLs y separación de estilos admin en CSS dedicado.
 - **1.1.0**: Reestructura a arquitectura de clases + templates, agrega link de acceso rápido y mantiene controles dinámicos de sistemas/accesos para mejor mantenimiento y escalabilidad.
+
+Para el historial completo revisa `CHANGELOG.md`.
 
 ## Checklist de pruebas manuales
 - [ ] Activar el plugin sin warnings en WP 6.x / PHP 8.x.

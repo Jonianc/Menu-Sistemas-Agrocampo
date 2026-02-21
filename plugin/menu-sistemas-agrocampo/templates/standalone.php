@@ -11,6 +11,14 @@ if (!defined('ABSPATH')) {
 }
 
 $header_class = 'msa-menu__header--' . $settings['header_layout'];
+$link_target = $settings['link_target'] ?? '_blank';
+if (!in_array($link_target, ['_blank', '_self'], true)) {
+    $link_target = '_blank';
+}
+$link_rel = $link_target === '_blank' ? 'noopener noreferrer' : '';
+$visible_items = array_values(array_filter($settings['items'], static function (array $item): bool {
+    return empty($item['hidden']);
+}));
 ?>
 <!doctype html>
 <html lang="es">
@@ -34,32 +42,44 @@ $header_class = 'msa-menu__header--' . $settings['header_layout'];
                 <a
                     class="msa-menu__quick-link"
                     href="<?php echo esc_url($settings['quick_access_url']); ?>"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target="<?php echo esc_attr($link_target); ?>"
+                    <?php if ($link_rel !== '') : ?>rel="<?php echo esc_attr($link_rel); ?>"<?php endif; ?>
                 >
                     <?php echo esc_html($settings['quick_access_label']); ?>
                 </a>
             <?php endif; ?>
         </header>
         <div class="msa-menu__grid">
-            <?php foreach ($settings['items'] as $item) : ?>
-                <article class="msa-menu__card">
-                    <h2 class="msa-menu__card-title"><?php echo esc_html($item['title']); ?></h2>
-                    <p class="msa-menu__card-description"><?php echo esc_html($item['description']); ?></p>
-                    <div class="msa-menu__actions">
-                        <?php foreach ($item['links'] as $link) : ?>
-                            <a
-                                class="msa-menu__link"
-                                href="<?php echo esc_url($link['url']); ?>"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <?php echo esc_html($link['label']); ?>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
+            <?php if (empty($visible_items)) : ?>
+                <article class="msa-menu__card msa-menu__card--empty">
+                    <h2 class="msa-menu__card-title"><?php echo esc_html__('No hay sistemas disponibles', 'menu-sistemas-agrocampo'); ?></h2>
+                    <p class="msa-menu__card-description"><?php echo esc_html__('Configura accesos desde el panel de administración.', 'menu-sistemas-agrocampo'); ?></p>
                 </article>
-            <?php endforeach; ?>
+            <?php else : ?>
+                <?php foreach ($visible_items as $item) : ?>
+                    <article class="msa-menu__card">
+                        <div class="msa-menu__card-heading">
+                            <h2 class="msa-menu__card-title"><?php echo esc_html($item['title']); ?></h2>
+                            <?php if (!empty($item['badge'])) : ?>
+                                <span class="msa-menu__badge"><?php echo esc_html($item['badge']); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <p class="msa-menu__card-description"><?php echo esc_html($item['description']); ?></p>
+                        <div class="msa-menu__actions">
+                            <?php foreach ($item['links'] as $link) : ?>
+                                <a
+                                    class="msa-menu__link"
+                                    href="<?php echo esc_url($link['url']); ?>"
+                                    target="<?php echo esc_attr($link_target); ?>"
+                                    <?php if ($link_rel !== '') : ?>rel="<?php echo esc_attr($link_rel); ?>"<?php endif; ?>
+                                >
+                                    <?php echo esc_html($link['label']); ?>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </section>
 </body>

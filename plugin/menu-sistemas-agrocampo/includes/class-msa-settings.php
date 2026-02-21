@@ -17,10 +17,13 @@ class MSA_Settings
             'header_layout' => 'center',
             'quick_access_label' => '',
             'quick_access_url' => '',
+            'link_target' => '_blank',
             'items' => [
                 [
                     'title' => 'Cotizador Mantenciones',
                     'description' => 'Formulario de cotización para mantenciones.',
+                    'badge' => '',
+                    'hidden' => false,
                     'links' => [
                         [
                             'label' => 'Formulario',
@@ -35,6 +38,8 @@ class MSA_Settings
                 [
                     'title' => 'Creador QR OT',
                     'description' => 'Genera y gestiona códigos QR para OT.',
+                    'badge' => '',
+                    'hidden' => false,
                     'links' => [
                         [
                             'label' => 'Subir OT',
@@ -74,12 +79,18 @@ class MSA_Settings
             $settings['header_layout'] = $input['header_layout'];
         }
 
+        if (isset($input['link_target']) && in_array($input['link_target'], ['_blank', '_self'], true)) {
+            $settings['link_target'] = $input['link_target'];
+        }
+
         if (isset($input['items']) && is_array($input['items'])) {
             $sanitized_items = [];
             foreach ($input['items'] as $item) {
                 $sanitized_item = [
                     'title' => isset($item['title']) ? sanitize_text_field($item['title']) : '',
                     'description' => isset($item['description']) ? sanitize_text_field($item['description']) : '',
+                    'badge' => isset($item['badge']) ? sanitize_text_field($item['badge']) : '',
+                    'hidden' => !empty($item['hidden']),
                     'links' => [],
                 ];
 

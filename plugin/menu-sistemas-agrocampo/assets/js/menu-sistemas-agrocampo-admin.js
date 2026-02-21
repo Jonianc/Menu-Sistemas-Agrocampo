@@ -1,8 +1,11 @@
 (function ($) {
+    const itemsContainer = $('#msa-items');
+    const form = $('.wrap form[action="options.php"]');
+
     function getNextIndex() {
         let maxIndex = -1;
-        $('#msa-items .msa-item-block').each(function () {
-            const index = parseInt($(this).data('item-index'), 10);
+        itemsContainer.find('.msa-item-block').each(function () {
+            const index = parseInt($(this).attr('data-item-index'), 10);
             if (!Number.isNaN(index) && index > maxIndex) {
                 maxIndex = index;
             }
@@ -20,6 +23,93 @@
         });
         return maxIndex + 1;
     }
+
+    function validateUrlInput(input) {
+        const value = input.val().trim();
+
+        if (value === '' || input[0].checkValidity()) {
+            input.removeClass('msa-url-invalid');
+            input[0].setCustomValidity('');
+            return;
+        }
+
+        input.addClass('msa-url-invalid');
+        input[0].setCustomValidity('Por favor ingresa una URL válida (ej: https://dominio.com).');
+    }
+
+    function bindUrlValidation(scope) {
+        scope.find('input[type="url"]').each(function () {
+            validateUrlInput($(this));
+        });
+    }
+
+    function toggleEmptyState() {
+        const hasItems = itemsContainer.find('.msa-item-block').length > 0;
+        itemsContainer.find('.msa-empty-state').toggle(!hasItems);
+    }
+
+    function reindexItems() {
+        itemsContainer.find('.msa-item-block').each(function (newIndex) {
+            const itemBlock = $(this);
+            itemBlock.attr('data-item-index', newIndex).data('item-index', newIndex);
+
+            itemBlock.find('input, select, textarea').each(function () {
+                const field = $(this);
+                const name = field.attr('name');
+                if (!name) {
+                    return;
+                }
+
+                field.attr('name', name.replace(/\[items\]\[\d+\]/, `[items][${newIndex}]`));
+            });
+        });
+    }
+
+    function refreshSortableState() {
+        if (!$.fn.sortable || !itemsContainer.length || !itemsContainer.hasClass('ui-sortable')) {
+            return;
+        }
+
+        itemsContainer.sortable('refresh');
+
+        if (itemsContainer.find('.msa-item-block').length <= 1) {
+            itemsContainer.sortable('disable');
+        } else {
+            itemsContainer.sortable('enable');
+        }
+    }
+
+    function initSortable() {
+        if (!$.fn.sortable || !itemsContainer.length) {
+            return;
+        }
+
+        if (itemsContainer.hasClass('ui-sortable')) {
+            itemsContainer.sortable('destroy');
+        }
+
+        itemsContainer.sortable({
+            items: '> .msa-item-block',
+            handle: '.msa-drag-item',
+            axis: 'y',
+            tolerance: 'pointer',
+            placeholder: 'msa-sort-placeholder',
+            forcePlaceholderSize: true,
+            helper: 'clone',
+            start: function (_event, ui) {
+                ui.placeholder.height(ui.item.outerHeight());
+            },
+            update: function () {
+                reindexItems();
+            }
+        });
+
+        refreshSortableState();
+    }
+
+    $(document).on('input blur', 'input[type="url"]', function () {
+        validateUrlInput($(this));
+    });
 
     $(document).on('click', '.msa-upload-logo', function (event) {
         event.preventDefault();
@@ -42,8 +132,26 @@
         event.preventDefault();
         const template = $('#msa-item-template').html();
         const index = getNextIndex();
-        const html = template.replace(/{{index}}/g, index);
-        $('#msa-items').append(html);
+        const newItem = $(template.replace(/{{index}}/g, index));
+        itemsContainer.append(newItem);
+
+        bindUrlValidation(newItem);
+        reindexItems();
+        toggleEmptyState();
+        refreshSortableState();
+    });
+
+    $(document).on('click', '.msa-remove-item', function (event) {
+        event.preventDefault();
+
+        if (!window.confirm(menuSistemasAgrocampo.labels.removeSystemConfirm)) {
+            return;
+        }
+
+        $(this).closest('.msa-item-block').remove();
+        reindexItems();
+        toggleEmptyState();
+        refreshSortableState();
     });
 
     $(document).on('click', '.msa-add-link', function (event) {
@@ -75,11 +183,24 @@
                 </td>
             </tr>
         `;
-        $(this).closest('table').find('tbody').append(row);
+        const newRow = $(row);
+        $(this).closest('table').find('tbody').append(newRow);
+        bindUrlValidation(newRow);
     });
 
     $(document).on('click', '.msa-remove-link', function (event) {
         event.preventDefault();
         $(this).closest('tr').remove();
+    });
+
+    form.on('submit', function () {
+        reindexItems();
+    });
+
+    $(function () {
+        initSortable();
+        reindexItems();
+        bindUrlValidation($(document));
+        toggleEmptyState();
     });
 })(jQuery);

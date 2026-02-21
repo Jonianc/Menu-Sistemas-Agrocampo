@@ -12,35 +12,13 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="wrap">
     <h1><?php echo esc_html__('Menú Sistemas Agrocampo', 'menu-sistemas-agrocampo'); ?></h1>
-    <style>
-        .msa-logo-preview {
-            max-width: 180px;
-            height: auto;
-            display: block;
-            margin-top: 0.5rem;
-        }
-        .msa-item-block {
-            border: 1px solid #dcdcdc;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: #ffffff;
-        }
-        .msa-actions {
-            margin-top: 1rem;
-        }
-        .msa-link-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        .msa-link-row input {
-            flex: 1 1 220px;
-        }
-        .msa-link-row .button {
-            flex: 0 0 auto;
-        }
-    </style>
+    <div class="msa-quick-route">
+        <p><strong><?php echo esc_html__('Ruta pública del menú:', 'menu-sistemas-agrocampo'); ?></strong></p>
+        <code><?php echo esc_html($menu_url); ?></code>
+        <a class="button button-secondary" href="<?php echo esc_url($menu_url); ?>" target="_blank" rel="noopener noreferrer">
+            <?php echo esc_html__('Abrir menú', 'menu-sistemas-agrocampo'); ?>
+        </a>
+    </div>
     <form method="post" action="options.php">
         <?php settings_fields('msa_menu_settings_group'); ?>
 
@@ -131,13 +109,39 @@ if (!defined('ABSPATH')) {
                         </p>
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row"><label for="msa-link-target"><?php echo esc_html__('Apertura de enlaces', 'menu-sistemas-agrocampo'); ?></label></th>
+                    <td>
+                        <select id="msa-link-target" name="<?php echo esc_attr($option_key); ?>[link_target]">
+                            <option value="_blank" <?php selected($settings['link_target'], '_blank'); ?>>
+                                <?php echo esc_html__('Nueva pestaña', 'menu-sistemas-agrocampo'); ?>
+                            </option>
+                            <option value="_self" <?php selected($settings['link_target'], '_self'); ?>>
+                                <?php echo esc_html__('Misma pestaña', 'menu-sistemas-agrocampo'); ?>
+                            </option>
+                        </select>
+                        <p class="description"><?php echo esc_html__('Aplica al botón de acceso rápido y accesos de cada sistema.', 'menu-sistemas-agrocampo'); ?></p>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
         <h2 class="title"><?php echo esc_html__('Sistemas', 'menu-sistemas-agrocampo'); ?></h2>
         <div id="msa-items">
+            <p class="description msa-empty-state" <?php if (!empty($settings['items'])) : ?>style="display:none;"<?php endif; ?>>
+                <?php echo esc_html__('No hay sistemas configurados. Agrega uno para comenzar.', 'menu-sistemas-agrocampo'); ?>
+            </p>
             <?php foreach ($settings['items'] as $item_index => $item) : ?>
                 <div class="msa-item-block" data-item-index="<?php echo esc_attr((string) $item_index); ?>">
+                    <div class="msa-item-block__actions">
+                        <span class="msa-drag-item" role="button" tabindex="0" aria-label="<?php echo esc_attr__('Arrastrar sistema', 'menu-sistemas-agrocampo'); ?>">
+                            <span class="dashicons dashicons-move" aria-hidden="true"></span>
+                            <?php echo esc_html__('Arrastrar', 'menu-sistemas-agrocampo'); ?>
+                        </span>
+                        <button type="button" class="button button-link-delete msa-remove-item">
+                            <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
+                        </button>
+                    </div>
                     <table class="form-table" role="presentation">
                         <tbody>
                             <tr>
@@ -160,6 +164,32 @@ if (!defined('ABSPATH')) {
                                         name="<?php echo esc_attr($option_key); ?>[items][<?php echo esc_attr((string) $item_index); ?>][description]"
                                         value="<?php echo esc_attr($item['description']); ?>"
                                     >
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label><?php echo esc_html__('Etiqueta (opcional)', 'menu-sistemas-agrocampo'); ?></label></th>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="regular-text"
+                                        name="<?php echo esc_attr($option_key); ?>[items][<?php echo esc_attr((string) $item_index); ?>][badge]"
+                                        value="<?php echo esc_attr($item['badge'] ?? ''); ?>"
+                                        placeholder="Nuevo / Mantenimiento"
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label><?php echo esc_html__('Visibilidad', 'menu-sistemas-agrocampo'); ?></label></th>
+                                <td>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            name="<?php echo esc_attr($option_key); ?>[items][<?php echo esc_attr((string) $item_index); ?>][hidden]"
+                                            value="1"
+                                            <?php checked(!empty($item['hidden'])); ?>
+                                        >
+                                        <?php echo esc_html__('Ocultar temporalmente este sistema', 'menu-sistemas-agrocampo'); ?>
+                                    </label>
                                 </td>
                             </tr>
                             <?php foreach ($item['links'] as $link_index => $link) : ?>
@@ -213,6 +243,15 @@ if (!defined('ABSPATH')) {
 
 <script type="text/template" id="msa-item-template">
     <div class="msa-item-block" data-item-index="{{index}}">
+        <div class="msa-item-block__actions">
+            <span class="msa-drag-item" role="button" tabindex="0" aria-label="<?php echo esc_attr__('Arrastrar sistema', 'menu-sistemas-agrocampo'); ?>">
+                <span class="dashicons dashicons-move" aria-hidden="true"></span>
+                <?php echo esc_html__('Arrastrar', 'menu-sistemas-agrocampo'); ?>
+            </span>
+            <button type="button" class="button button-link-delete msa-remove-item">
+                <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
+            </button>
+        </div>
         <table class="form-table" role="presentation">
             <tbody>
                 <tr>
@@ -235,6 +274,31 @@ if (!defined('ABSPATH')) {
                             name="<?php echo esc_attr($option_key); ?>[items][{{index}}][description]"
                             value=""
                         >
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label><?php echo esc_html__('Etiqueta (opcional)', 'menu-sistemas-agrocampo'); ?></label></th>
+                    <td>
+                        <input
+                            type="text"
+                            class="regular-text"
+                            name="<?php echo esc_attr($option_key); ?>[items][{{index}}][badge]"
+                            value=""
+                            placeholder="Nuevo / Mantenimiento"
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label><?php echo esc_html__('Visibilidad', 'menu-sistemas-agrocampo'); ?></label></th>
+                    <td>
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="<?php echo esc_attr($option_key); ?>[items][{{index}}][hidden]"
+                                value="1"
+                            >
+                            <?php echo esc_html__('Ocultar temporalmente este sistema', 'menu-sistemas-agrocampo'); ?>
+                        </label>
                     </td>
                 </tr>
                 <tr>
