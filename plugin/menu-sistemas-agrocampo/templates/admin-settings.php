@@ -238,6 +238,20 @@ if (!defined('ABSPATH')) {
             </button>
         </div>
 
+        <h2 class="title"><?php echo esc_html__('Vista previa', 'menu-sistemas-agrocampo'); ?></h2>
+        <p class="description"><?php echo esc_html__('Esta vista se actualiza automáticamente mientras editas los campos.', 'menu-sistemas-agrocampo'); ?></p>
+        <section class="msa-admin-preview" aria-live="polite" aria-label="<?php echo esc_attr__('Vista previa del menú', 'menu-sistemas-agrocampo'); ?>">
+            <header id="msa-preview-header" class="msa-admin-preview__header msa-admin-preview__header--center">
+                <img id="msa-preview-logo" class="msa-admin-preview__logo" src="" alt="<?php echo esc_attr__('Logo del menú', 'menu-sistemas-agrocampo'); ?>" hidden>
+                <div class="msa-admin-preview__text">
+                    <h3 id="msa-preview-title" class="msa-admin-preview__title"></h3>
+                    <p id="msa-preview-subtitle" class="msa-admin-preview__subtitle"></p>
+                </div>
+                <a id="msa-preview-quick-link" class="msa-admin-preview__quick-link" href="#" target="_blank" rel="noopener noreferrer" hidden></a>
+            </header>
+            <div id="msa-preview-grid" class="msa-admin-preview__grid"></div>
+        </section>
+
         <?php submit_button(__('Guardar cambios', 'menu-sistemas-agrocampo')); ?>
     </form>
 </div>
