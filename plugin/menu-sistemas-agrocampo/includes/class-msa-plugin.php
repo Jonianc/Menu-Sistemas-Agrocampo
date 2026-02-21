@@ -9,6 +9,7 @@ class MSA_Plugin
     public function run(): void
     {
         add_action('init', [$this, 'load_textdomain']);
+        add_action('init', ['MSA_Activator', 'ensure_capability_for_default_roles']);
 
         $settings = new MSA_Settings();
         $admin = new MSA_Admin($settings);
