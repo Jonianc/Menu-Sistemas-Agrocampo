@@ -6,6 +6,8 @@ if (!defined('ABSPATH')) {
 
 class MSA_Admin
 {
+    private const CAPABILITY = 'manage_msa_menu';
+
     private MSA_Settings $settings;
 
     public function __construct(MSA_Settings $settings)
@@ -18,7 +20,7 @@ class MSA_Admin
         add_menu_page(
             __('Menú Sistemas Agrocampo', 'menu-sistemas-agrocampo'),
             __('Menú Sistemas', 'menu-sistemas-agrocampo'),
-            'manage_options',
+            self::CAPABILITY,
             'msa-menu-settings',
             [$this, 'render_settings_page'],
             'dashicons-screenoptions',
@@ -29,7 +31,7 @@ class MSA_Admin
             'msa-menu-settings',
             __('Ajustes', 'menu-sistemas-agrocampo'),
             __('Ajustes', 'menu-sistemas-agrocampo'),
-            'manage_options',
+            self::CAPABILITY,
             'msa-menu-settings',
             [$this, 'render_settings_page']
         );
@@ -92,9 +94,15 @@ class MSA_Admin
         );
     }
 
+
+    public function option_page_capability(): string
+    {
+        return self::CAPABILITY;
+    }
+
     public function render_settings_page(): void
     {
-        if (!current_user_can('manage_options')) {
+        if (!current_user_can(self::CAPABILITY)) {
             return;
         }
 
