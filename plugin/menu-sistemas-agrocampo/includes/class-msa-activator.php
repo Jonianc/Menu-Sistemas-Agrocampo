@@ -10,6 +10,14 @@ class MSA_Activator
 
     public static function activate(): void
     {
+        self::ensure_capability_for_default_roles();
+
+        add_rewrite_rule('^menu-sistemas-agrocampo/?$', 'index.php?msa_menu=1', 'top');
+        flush_rewrite_rules();
+    }
+
+    public static function ensure_capability_for_default_roles(): void
+    {
         $administrator_role = get_role('administrator');
         if ($administrator_role instanceof WP_Role) {
             $administrator_role->add_cap(self::CAPABILITY);
@@ -19,8 +27,5 @@ class MSA_Activator
         if ($editor_role instanceof WP_Role) {
             $editor_role->add_cap(self::CAPABILITY);
         }
-
-        add_rewrite_rule('^menu-sistemas-agrocampo/?$', 'index.php?msa_menu=1', 'top');
-        flush_rewrite_rules();
     }
 }
