@@ -95,3 +95,122 @@ input[type="url"].msa-url-invalid {
     padding: 0.2rem 0.45rem;
     border-radius: 4px;
 }
+
+.msa-admin-preview {
+    border: 1px solid #dcdcde;
+    border-radius: 12px;
+    background: #fff;
+    padding: 1rem;
+    margin: 0.75rem 0 1.25rem;
+}
+
+.msa-admin-preview__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.msa-admin-preview__header--logo-right {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.msa-admin-preview__header--logo-left {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: right;
+}
+
+.msa-admin-preview__logo {
+    max-width: 140px;
+    height: auto;
+}
+
+.msa-admin-preview__title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.msa-admin-preview__subtitle {
+    margin: 0;
+    color: #4b5563;
+}
+
+.msa-admin-preview__quick-link,
+.msa-admin-preview__link {
+    text-decoration: none;
+}
+
+.msa-admin-preview__quick-link {
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+}
+
+.msa-admin-preview__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+}
+
+.msa-admin-preview__card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.75rem;
+    background: #f9fafb;
+}
+
+.msa-admin-preview__card--empty {
+    text-align: center;
+    font-style: italic;
+}
+
+.msa-admin-preview__card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.msa-admin-preview__card-title {
+    margin: 0;
+}
+
+.msa-admin-preview__badge {
+    font-size: 0.75rem;
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+}
+
+.msa-admin-preview__card-description {
+    color: #64748b;
+}
+
+.msa-admin-preview__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.msa-admin-preview__link {
+    background: #0f766e;
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+}
+
+@media (max-width: 782px) {
+    .msa-admin-preview__header--logo-right,
+    .msa-admin-preview__header--logo-left {
+        flex-direction: column;
+        text-align: center;
+    }
+}

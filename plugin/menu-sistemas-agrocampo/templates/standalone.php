@@ -19,6 +19,16 @@ $link_rel = $link_target === '_blank' ? 'noopener noreferrer' : '';
 $visible_items = array_values(array_filter($settings['items'], static function (array $item): bool {
     return empty($item['hidden']);
 }));
+$visible_items = array_map(static function (array $item): array {
+    $item['links'] = array_values(array_filter($item['links'] ?? [], static function (array $link): bool {
+        $label = isset($link['label']) ? trim((string) $link['label']) : '';
+        $url = isset($link['url']) ? trim((string) $link['url']) : '';
+
+        return $label !== '' && $url !== '';
+    }));
+
+    return $item;
+}, $visible_items);
 ?>
 <!doctype html>
 <html lang="es">
@@ -65,18 +75,20 @@ $visible_items = array_values(array_filter($settings['items'], static function (
                             <?php endif; ?>
                         </div>
                         <p class="msa-menu__card-description"><?php echo esc_html($item['description']); ?></p>
-                        <div class="msa-menu__actions">
-                            <?php foreach ($item['links'] as $link) : ?>
-                                <a
-                                    class="msa-menu__link"
-                                    href="<?php echo esc_url($link['url']); ?>"
-                                    target="<?php echo esc_attr($link_target); ?>"
-                                    <?php if ($link_rel !== '') : ?>rel="<?php echo esc_attr($link_rel); ?>"<?php endif; ?>
-                                >
-                                    <?php echo esc_html($link['label']); ?>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
+                        <?php if (!empty($item['links'])) : ?>
+                            <div class="msa-menu__actions">
+                                <?php foreach ($item['links'] as $link) : ?>
+                                    <a
+                                        class="msa-menu__link"
+                                        href="<?php echo esc_url($link['url']); ?>"
+                                        target="<?php echo esc_attr($link_target); ?>"
+                                        <?php if ($link_rel !== '') : ?>rel="<?php echo esc_attr($link_rel); ?>"<?php endif; ?>
+                                    >
+                                        <?php echo esc_html($link['label']); ?>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
                     </article>
                 <?php endforeach; ?>
             <?php endif; ?>

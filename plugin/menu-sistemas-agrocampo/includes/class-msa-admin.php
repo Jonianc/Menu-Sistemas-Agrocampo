@@ -74,6 +74,7 @@ class MSA_Admin
             'menuSistemasAgrocampo',
             [
                 'optionKey' => MSA_Settings::OPTION_KEY,
+                'adminNonce' => wp_create_nonce('msa_admin_actions'),
                 'labels' => [
                     'access' => __('Acceso', 'menu-sistemas-agrocampo'),
                     'remove' => __('Quitar', 'menu-sistemas-agrocampo'),
@@ -82,6 +83,10 @@ class MSA_Admin
                     'useLogo' => __('Usar este logo', 'menu-sistemas-agrocampo'),
                     'removeSystemConfirm' => __('¿Seguro que deseas eliminar este sistema?', 'menu-sistemas-agrocampo'),
                     'dragSystem' => __('Arrastrar sistema', 'menu-sistemas-agrocampo'),
+                    'nonceError' => __('No se pudo validar la sesión de edición. Recarga la página para continuar.', 'menu-sistemas-agrocampo'),
+                    'previewNoItems' => __('No hay sistemas visibles en la vista previa.', 'menu-sistemas-agrocampo'),
+                    'previewUntitled' => __('Sistema sin nombre', 'menu-sistemas-agrocampo'),
+                    'previewNoDescription' => __('Sin descripción.', 'menu-sistemas-agrocampo'),
                 ],
             ]
         );

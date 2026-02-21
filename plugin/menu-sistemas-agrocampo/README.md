@@ -45,6 +45,9 @@ El menú queda disponible en la ruta:
 ```
 
 ## Changelog breve
+- **1.4.4**: Añade vista previa en vivo en admin para visualizar cambios del menú antes de guardar.
+- **1.4.3**: Agrega nonce admin dedicado y validación de sesión en acciones destructivas (eliminar sistema/acceso).
+- **1.4.2**: Endurece validación de accesos (requiere nombre + URL) y evita render de enlaces incompletos en frontend.
 - **1.4.1**: Se agrega bloque de acceso rápido a la ruta pública en admin y submenú de Ajustes.
 - **1.4.0**: Sprint 3 agrega visibilidad por sistema, etiqueta (badge) y configuración global de apertura de enlaces.
 - **1.3.1**: Corrige comportamiento de drag & drop en admin con inicialización/reindexación robusta y actualización de estado sortable.
