@@ -20,7 +20,16 @@ $visible_items = array_values(array_filter($settings['items'], static function (
     return empty($item['hidden']);
 }));
 $visible_items = array_map(static function (array $item): array {
-    $item['links'] = array_values(array_filter($item['links'] ?? [], static function (array $link): bool {
+    $links = $item['links'] ?? [];
+    if (!is_array($links)) {
+        $links = [];
+    }
+
+    $item['links'] = array_values(array_filter($links, static function ($link): bool {
+        if (!is_array($link)) {
+            return false;
+        }
+
         $label = isset($link['label']) ? trim((string) $link['label']) : '';
         $url = isset($link['url']) ? trim((string) $link['url']) : '';
 
