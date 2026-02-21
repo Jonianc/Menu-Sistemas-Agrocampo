@@ -89,6 +89,9 @@ class MSA_Admin
                     'previewNoItems' => __('No hay sistemas visibles en la vista previa.', 'menu-sistemas-agrocampo'),
                     'previewUntitled' => __('Sistema sin nombre', 'menu-sistemas-agrocampo'),
                     'previewNoDescription' => __('Sin descripción.', 'menu-sistemas-agrocampo'),
+                    'moveUp' => __('Mover sistema hacia arriba', 'menu-sistemas-agrocampo'),
+                    'moveDown' => __('Mover sistema hacia abajo', 'menu-sistemas-agrocampo'),
+                    'sortMoved' => __('Sistema movido a la posición %d de %d.', 'menu-sistemas-agrocampo'),
                 ],
             ]
         );

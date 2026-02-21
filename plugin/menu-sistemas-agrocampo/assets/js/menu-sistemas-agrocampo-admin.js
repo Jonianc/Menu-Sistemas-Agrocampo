@@ -192,6 +192,41 @@
         itemsContainer.find('.msa-empty-state').toggle(!hasItems);
     }
 
+    function announceSortPosition(itemBlock) {
+        const announcer = $('#msa-sort-announcer');
+        if (!announcer.length) {
+            return;
+        }
+
+        const total = itemsContainer.find('.msa-item-block').length;
+        const position = itemBlock.index() + 1;
+        const template = String(menuSistemasAgrocampo.labels.sortMoved || '');
+        const message = template.replace('%d', String(position)).replace('%d', String(total));
+        announcer.text(message);
+    }
+
+    function moveItem(itemBlock, direction) {
+        if (!itemBlock.length) {
+            return;
+        }
+
+        const targetBlock = direction === 'up' ? itemBlock.prev('.msa-item-block') : itemBlock.next('.msa-item-block');
+        if (!targetBlock.length) {
+            return;
+        }
+
+        if (direction === 'up') {
+            itemBlock.insertBefore(targetBlock);
+        } else {
+            itemBlock.insertAfter(targetBlock);
+        }
+
+        reindexItems();
+        refreshSortableState();
+        renderPreview();
+        announceSortPosition(itemBlock);
+    }
+
     function reindexItems() {
         itemsContainer.find('.msa-item-block').each(function (newIndex) {
             const itemBlock = $(this);
@@ -285,6 +320,26 @@
         toggleEmptyState();
         refreshSortableState();
         renderPreview();
+    });
+
+    $(document).on('click', '.msa-move-up', function (event) {
+        event.preventDefault();
+        moveItem($(this).closest('.msa-item-block'), 'up');
+    });
+
+    $(document).on('click', '.msa-move-down', function (event) {
+        event.preventDefault();
+        moveItem($(this).closest('.msa-item-block'), 'down');
+    });
+
+    $(document).on('keydown', '.msa-drag-item', function (event) {
+        if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
+            return;
+        }
+
+        event.preventDefault();
+        const direction = event.key === 'ArrowUp' ? 'up' : 'down';
+        moveItem($(this).closest('.msa-item-block'), direction);
     });
 
     $(document).on('click', '.msa-remove-item', function (event) {

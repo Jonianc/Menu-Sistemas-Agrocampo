@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Menú Sistemas Agrocampo
  * Description: Menú standalone en frontend para gestionar sistemas de Agrocampo.
- * Version: 1.4.6
+ * Version: 1.4.7
  * Author: Agrocampo
  * License: GPL-2.0-or-later
  * Text Domain: menu-sistemas-agrocampo
@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('MSA_PLUGIN_VERSION', '1.4.6');
+define('MSA_PLUGIN_VERSION', '1.4.7');
 define('MSA_PLUGIN_FILE', __FILE__);
 define('MSA_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MSA_PLUGIN_URL', plugin_dir_url(__FILE__));

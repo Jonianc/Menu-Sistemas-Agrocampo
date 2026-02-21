@@ -143,6 +143,7 @@ if (!defined('ABSPATH')) {
         </table>
 
         <h2 class="title"><?php echo esc_html__('Sistemas', 'menu-sistemas-agrocampo'); ?></h2>
+        <p id="msa-sort-announcer" class="screen-reader-text" aria-live="polite"></p>
         <div id="msa-items">
             <p class="description msa-empty-state" <?php if (!empty($settings['items'])) : ?>style="display:none;"<?php endif; ?>>
                 <?php echo esc_html__('No hay sistemas configurados. Agrega uno para comenzar.', 'menu-sistemas-agrocampo'); ?>
@@ -154,6 +155,12 @@ if (!defined('ABSPATH')) {
                             <span class="dashicons dashicons-move" aria-hidden="true"></span>
                             <?php echo esc_html__('Arrastrar', 'menu-sistemas-agrocampo'); ?>
                         </span>
+                        <button type="button" class="button msa-move-up" aria-label="<?php echo esc_attr__('Mover sistema hacia arriba', 'menu-sistemas-agrocampo'); ?>">
+                            <?php echo esc_html__('Subir', 'menu-sistemas-agrocampo'); ?>
+                        </button>
+                        <button type="button" class="button msa-move-down" aria-label="<?php echo esc_attr__('Mover sistema hacia abajo', 'menu-sistemas-agrocampo'); ?>">
+                            <?php echo esc_html__('Bajar', 'menu-sistemas-agrocampo'); ?>
+                        </button>
                         <button type="button" class="button button-link-delete msa-remove-item">
                             <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
                         </button>
@@ -278,6 +285,12 @@ if (!defined('ABSPATH')) {
                 <span class="dashicons dashicons-move" aria-hidden="true"></span>
                 <?php echo esc_html__('Arrastrar', 'menu-sistemas-agrocampo'); ?>
             </span>
+            <button type="button" class="button msa-move-up" aria-label="<?php echo esc_attr__('Mover sistema hacia arriba', 'menu-sistemas-agrocampo'); ?>">
+                <?php echo esc_html__('Subir', 'menu-sistemas-agrocampo'); ?>
+            </button>
+            <button type="button" class="button msa-move-down" aria-label="<?php echo esc_attr__('Mover sistema hacia abajo', 'menu-sistemas-agrocampo'); ?>">
+                <?php echo esc_html__('Bajar', 'menu-sistemas-agrocampo'); ?>
+            </button>
             <button type="button" class="button button-link-delete msa-remove-item">
                 <?php echo esc_html__('Eliminar sistema', 'menu-sistemas-agrocampo'); ?>
             </button>

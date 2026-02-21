@@ -4,6 +4,14 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.4.7] - 2026-02-21
+### Added
+- Controles accesibles por sistema para mover elementos arriba/abajo desde teclado o botones en admin.
+- Región `aria-live` para anunciar la nueva posición al reordenar sistemas sin drag & drop.
+
+### Changed
+- JS admin incorpora soporte de atajos con flechas (↑/↓) en el handle de arrastre para mejorar accesibilidad de reordenamiento.
+
 ## [1.4.6] - 2026-02-21
 ### Added
 - Opción de allowlist de hosts (`allowed_hosts`) en ajustes admin para restringir dominios válidos de enlaces.
