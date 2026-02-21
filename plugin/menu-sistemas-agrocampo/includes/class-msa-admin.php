@@ -109,6 +109,7 @@ class MSA_Admin
         $settings = $this->settings->get_settings();
         $option_key = MSA_Settings::OPTION_KEY;
         $menu_url = home_url('/menu-sistemas-agrocampo/');
+        $allowed_hosts_text = implode(PHP_EOL, $settings['allowed_hosts'] ?? []);
         require MSA_PLUGIN_DIR . 'templates/admin-settings.php';
     }
 }

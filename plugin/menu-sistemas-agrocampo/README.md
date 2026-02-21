@@ -45,6 +45,7 @@ El menú queda disponible en la ruta:
 ```
 
 ## Changelog breve
+- **1.4.6**: Agrega allowlist de hosts para restringir URLs guardadas (acceso rápido y accesos por sistema).
 - **1.4.5**: Introduce capability `manage_msa_menu` para delegar acceso al plugin (admin/editor) sin depender de `manage_options`.
 - **1.4.4**: Añade vista previa en vivo en admin para visualizar cambios del menú antes de guardar.
 - **1.4.3**: Agrega nonce admin dedicado y validación de sesión en acciones destructivas (eliminar sistema/acceso).

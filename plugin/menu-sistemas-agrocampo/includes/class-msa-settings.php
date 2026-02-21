@@ -18,6 +18,62 @@ class MSA_Settings
         return wp_verify_nonce($nonce, 'msa_admin_actions') !== false;
     }
 
+    private function normalize_host(string $raw_host): string
+    {
+        $candidate = trim(strtolower($raw_host));
+        if ($candidate === '') {
+            return '';
+        }
+
+        $candidate = preg_replace('#^https?://#', '', $candidate);
+        $candidate = preg_replace('#/.*$#', '', $candidate);
+        $candidate = preg_replace('/:\\d+$/', '', $candidate);
+
+        return sanitize_text_field($candidate);
+    }
+
+    private function sanitize_allowed_hosts($input): array
+    {
+        $raw_hosts = [];
+
+        if (is_array($input)) {
+            $raw_hosts = $input;
+        } elseif (is_string($input)) {
+            $raw_hosts = preg_split('/[\r\n,]+/', $input) ?: [];
+        }
+
+        $sanitized_hosts = [];
+        foreach ($raw_hosts as $host) {
+            $normalized_host = $this->normalize_host((string) $host);
+            if ($normalized_host === '') {
+                continue;
+            }
+
+            $sanitized_hosts[$normalized_host] = $normalized_host;
+        }
+
+        return array_values($sanitized_hosts);
+    }
+
+    private function is_url_allowed(string $url, array $allowed_hosts): bool
+    {
+        if ($url === '') {
+            return false;
+        }
+
+        if (empty($allowed_hosts)) {
+            return true;
+        }
+
+        $url_host = wp_parse_url($url, PHP_URL_HOST);
+        if (!is_string($url_host) || $url_host === '') {
+            return false;
+        }
+
+        $normalized_url_host = $this->normalize_host($url_host);
+        return in_array($normalized_url_host, $allowed_hosts, true);
+    }
+
     public function get_defaults(): array
     {
         return [
@@ -27,6 +83,7 @@ class MSA_Settings
             'header_layout' => 'center',
             'quick_access_label' => '',
             'quick_access_url' => '',
+            'allowed_hosts' => [],
             'link_target' => '_blank',
             'items' => [
                 [
@@ -83,7 +140,10 @@ class MSA_Settings
         $settings['subtitle'] = isset($input['subtitle']) ? sanitize_text_field($input['subtitle']) : $settings['subtitle'];
         $settings['logo_url'] = isset($input['logo_url']) ? esc_url_raw($input['logo_url']) : '';
         $settings['quick_access_label'] = isset($input['quick_access_label']) ? sanitize_text_field($input['quick_access_label']) : '';
-        $settings['quick_access_url'] = isset($input['quick_access_url']) ? esc_url_raw($input['quick_access_url']) : '';
+        $settings['allowed_hosts'] = $this->sanitize_allowed_hosts($input['allowed_hosts'] ?? []);
+
+        $quick_access_url = isset($input['quick_access_url']) ? esc_url_raw($input['quick_access_url']) : '';
+        $settings['quick_access_url'] = $this->is_url_allowed($quick_access_url, $settings['allowed_hosts']) ? $quick_access_url : '';
 
         if (isset($input['header_layout']) && in_array($input['header_layout'], ['center', 'logo-right', 'logo-left'], true)) {
             $settings['header_layout'] = $input['header_layout'];
@@ -111,7 +171,7 @@ class MSA_Settings
                         $label = isset($link['label']) ? sanitize_text_field($link['label']) : '';
                         $url = isset($link['url']) ? esc_url_raw($link['url']) : '';
 
-                        if ($label === '' || $url === '') {
+                        if ($label === '' || $url === '' || !$this->is_url_allowed($url, $settings['allowed_hosts'])) {
                             continue;
                         }
 

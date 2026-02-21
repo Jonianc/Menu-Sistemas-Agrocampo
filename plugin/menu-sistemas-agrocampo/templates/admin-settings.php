@@ -4,6 +4,7 @@
  *
  * @var array $settings
  * @var string $option_key
+ * @var string $allowed_hosts_text
  */
 
 if (!defined('ABSPATH')) {
@@ -122,6 +123,20 @@ if (!defined('ABSPATH')) {
                             </option>
                         </select>
                         <p class="description"><?php echo esc_html__('Aplica al botón de acceso rápido y accesos de cada sistema.', 'menu-sistemas-agrocampo'); ?></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row"><label for="msa-allowed-hosts"><?php echo esc_html__('Hosts permitidos (opcional)', 'menu-sistemas-agrocampo'); ?></label></th>
+                    <td>
+                        <textarea
+                            id="msa-allowed-hosts"
+                            class="large-text"
+                            rows="4"
+                            name="<?php echo esc_attr($option_key); ?>[allowed_hosts]"
+                            placeholder="sistemas.agrocampo.cl&#10;intranet.agrocampo.cl"
+                        ><?php echo esc_textarea($allowed_hosts_text); ?></textarea>
+                        <p class="description"><?php echo esc_html__('Ingresa un host por línea (o separados por coma). Si se define esta lista, solo se guardarán URLs de acceso rápido y accesos de sistemas que pertenezcan a esos hosts.', 'menu-sistemas-agrocampo'); ?></p>
                     </td>
                 </tr>
             </tbody>
