@@ -98,9 +98,11 @@ class MSA_Settings
                     foreach ($item['links'] as $link) {
                         $label = isset($link['label']) ? sanitize_text_field($link['label']) : '';
                         $url = isset($link['url']) ? esc_url_raw($link['url']) : '';
-                        if ($label === '' && $url === '') {
+
+                        if ($label === '' || $url === '') {
                             continue;
                         }
+
                         $sanitized_item['links'][] = [
                             'label' => $label,
                             'url' => $url,

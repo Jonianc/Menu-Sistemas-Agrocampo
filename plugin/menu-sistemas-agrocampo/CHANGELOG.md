@@ -4,6 +4,11 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.4.2] - 2026-02-21
+### Changed
+- Endurece sanitización de accesos: ahora solo se guardan enlaces cuando tienen nombre y URL válidos.
+- Render frontend filtra defensivamente enlaces incompletos para evitar botones vacíos o rotos.
+
 ## [1.4.1] - 2026-02-20
 ### Added
 - Bloque de acceso rápido en admin con URL pública del menú y botón para abrirla.
