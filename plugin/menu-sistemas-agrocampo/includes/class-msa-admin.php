@@ -6,6 +6,8 @@ if (!defined('ABSPATH')) {
 
 class MSA_Admin
 {
+    private const CAPABILITY = 'manage_msa_menu';
+
     private MSA_Settings $settings;
 
     public function __construct(MSA_Settings $settings)
@@ -18,7 +20,7 @@ class MSA_Admin
         add_menu_page(
             __('Menú Sistemas Agrocampo', 'menu-sistemas-agrocampo'),
             __('Menú Sistemas', 'menu-sistemas-agrocampo'),
-            'manage_options',
+            self::CAPABILITY,
             'msa-menu-settings',
             [$this, 'render_settings_page'],
             'dashicons-screenoptions',
@@ -29,7 +31,7 @@ class MSA_Admin
             'msa-menu-settings',
             __('Ajustes', 'menu-sistemas-agrocampo'),
             __('Ajustes', 'menu-sistemas-agrocampo'),
-            'manage_options',
+            self::CAPABILITY,
             'msa-menu-settings',
             [$this, 'render_settings_page']
         );
@@ -87,20 +89,30 @@ class MSA_Admin
                     'previewNoItems' => __('No hay sistemas visibles en la vista previa.', 'menu-sistemas-agrocampo'),
                     'previewUntitled' => __('Sistema sin nombre', 'menu-sistemas-agrocampo'),
                     'previewNoDescription' => __('Sin descripción.', 'menu-sistemas-agrocampo'),
+                    'moveUp' => __('Mover sistema hacia arriba', 'menu-sistemas-agrocampo'),
+                    'moveDown' => __('Mover sistema hacia abajo', 'menu-sistemas-agrocampo'),
+                    'sortMoved' => __('Sistema movido a la posición %d de %d.', 'menu-sistemas-agrocampo'),
                 ],
             ]
         );
     }
 
+
+    public function option_page_capability(): string
+    {
+        return self::CAPABILITY;
+    }
+
     public function render_settings_page(): void
     {
-        if (!current_user_can('manage_options')) {
+        if (!current_user_can(self::CAPABILITY)) {
             return;
         }
 
         $settings = $this->settings->get_settings();
         $option_key = MSA_Settings::OPTION_KEY;
         $menu_url = home_url('/menu-sistemas-agrocampo/');
+        $allowed_hosts_text = implode(PHP_EOL, $settings['allowed_hosts'] ?? []);
         require MSA_PLUGIN_DIR . 'templates/admin-settings.php';
     }
 }

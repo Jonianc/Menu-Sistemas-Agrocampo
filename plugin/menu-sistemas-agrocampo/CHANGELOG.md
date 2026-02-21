@@ -4,6 +4,31 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.4.7] - 2026-02-21
+### Added
+- Controles accesibles por sistema para mover elementos arriba/abajo desde teclado o botones en admin.
+- Región `aria-live` para anunciar la nueva posición al reordenar sistemas sin drag & drop.
+
+### Changed
+- JS admin incorpora soporte de atajos con flechas (↑/↓) en el handle de arrastre para mejorar accesibilidad de reordenamiento.
+
+## [1.4.6] - 2026-02-21
+### Added
+- Opción de allowlist de hosts (`allowed_hosts`) en ajustes admin para restringir dominios válidos de enlaces.
+
+### Changed
+- Sanitización de `quick_access_url` y accesos por sistema ahora descarta URLs fuera de los hosts permitidos cuando la allowlist está configurada.
+- Normalización de hosts soporta entrada por línea o por coma y elimina protocolo/ruta/puerto antes de guardar.
+
+## [1.4.5] - 2026-02-21
+### Added
+- Capability dedicada `manage_msa_menu` para delegar la administración del plugin sin usar `manage_options`.
+
+### Changed
+- Activación asigna la capability a `administrator` y `editor`; desactivación la remueve de ambos roles.
+- Menú, submenú y guard de la pantalla de ajustes ahora validan `manage_msa_menu`.
+- Se ajusta la capability del `options.php` para el grupo `msa_menu_settings_group`, permitiendo guardar ajustes con la capability nueva.
+
 ## [1.4.4] - 2026-02-21
 ### Added
 - Vista previa en vivo en la pantalla de ajustes para header, acceso rápido y tarjetas de sistemas.

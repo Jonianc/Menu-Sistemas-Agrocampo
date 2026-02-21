@@ -20,6 +20,7 @@ class MSA_Plugin
 
         add_action('admin_menu', [$admin, 'register_menu']);
         add_action('admin_init', [$admin, 'register_settings']);
+        add_filter('option_page_capability_msa_menu_settings_group', [$admin, 'option_page_capability']);
         add_action('admin_enqueue_scripts', [$admin, 'enqueue_assets']);
     }
 
