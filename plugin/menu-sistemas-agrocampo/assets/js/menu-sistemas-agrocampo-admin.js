@@ -2,6 +2,23 @@
     const itemsContainer = $('#msa-items');
     const form = $('.wrap form[action="options.php"]');
 
+    function hasValidNonceContext() {
+        const scriptNonce = menuSistemasAgrocampo.adminNonce || '';
+        const inputNonce = String($('input[name="msa_admin_nonce"]').val() || '');
+
+        return scriptNonce !== '' && inputNonce !== '' && scriptNonce === inputNonce;
+    }
+
+    function guardNonceContext() {
+        if (hasValidNonceContext()) {
+            return true;
+        }
+
+        window.alert(menuSistemasAgrocampo.labels.nonceError);
+        return false;
+    }
+
+
     function getNextIndex() {
         let maxIndex = -1;
         itemsContainer.find('.msa-item-block').each(function () {
@@ -144,6 +161,10 @@
     $(document).on('click', '.msa-remove-item', function (event) {
         event.preventDefault();
 
+        if (!guardNonceContext()) {
+            return;
+        }
+
         if (!window.confirm(menuSistemasAgrocampo.labels.removeSystemConfirm)) {
             return;
         }
@@ -190,6 +211,11 @@
 
     $(document).on('click', '.msa-remove-link', function (event) {
         event.preventDefault();
+
+        if (!guardNonceContext()) {
+            return;
+        }
+
         $(this).closest('tr').remove();
     });
 

@@ -4,6 +4,14 @@ Todos los cambios importantes de este plugin se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y este proyecto adhiere a versionado semántico.
 
+## [1.4.3] - 2026-02-21
+### Added
+- Nonce dedicado (`msa_admin_actions`) en la pantalla admin para endurecer acciones de edición sensibles.
+
+### Changed
+- JS admin ahora valida contexto de nonce antes de eliminar sistemas o accesos y muestra mensaje si la sesión no es válida.
+- Sanitización backend conserva `items` previos cuando el nonce admin no es válido, evitando aplicar payload sensible sin validación.
+
 ## [1.4.2] - 2026-02-21
 ### Changed
 - Endurece sanitización de accesos: ahora solo se guardan enlaces cuando tienen nombre y URL válidos.

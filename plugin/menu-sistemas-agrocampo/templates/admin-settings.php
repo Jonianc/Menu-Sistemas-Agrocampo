@@ -21,6 +21,7 @@ if (!defined('ABSPATH')) {
     </div>
     <form method="post" action="options.php">
         <?php settings_fields('msa_menu_settings_group'); ?>
+        <?php wp_nonce_field('msa_admin_actions', 'msa_admin_nonce'); ?>
 
         <h2 class="title"><?php echo esc_html__('Header', 'menu-sistemas-agrocampo'); ?></h2>
         <table class="form-table" role="presentation">

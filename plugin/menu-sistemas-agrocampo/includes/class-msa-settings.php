@@ -8,6 +8,16 @@ class MSA_Settings
 {
     public const OPTION_KEY = 'msa_menu_settings';
 
+    private function has_valid_items_nonce(): bool
+    {
+        if (!isset($_POST['msa_admin_nonce'])) {
+            return false;
+        }
+
+        $nonce = sanitize_text_field(wp_unslash((string) $_POST['msa_admin_nonce']));
+        return wp_verify_nonce($nonce, 'msa_admin_actions') !== false;
+    }
+
     public function get_defaults(): array
     {
         return [
@@ -83,7 +93,9 @@ class MSA_Settings
             $settings['link_target'] = $input['link_target'];
         }
 
-        if (isset($input['items']) && is_array($input['items'])) {
+        $has_valid_items_nonce = $this->has_valid_items_nonce();
+
+        if (isset($input['items']) && is_array($input['items']) && $has_valid_items_nonce) {
             $sanitized_items = [];
             foreach ($input['items'] as $item) {
                 $sanitized_item = [
@@ -114,6 +126,11 @@ class MSA_Settings
             }
 
             $settings['items'] = $sanitized_items;
+        }
+
+        if (!$has_valid_items_nonce) {
+            $existing_settings = $this->get_settings();
+            $settings['items'] = $existing_settings['items'] ?? $settings['items'];
         }
 
         return $settings;
